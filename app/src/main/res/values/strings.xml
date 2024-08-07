@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">F1rstDoc</string>
+
+   <string name="prompt_emaillogin">Email</string>
+    <string name="prompt_senhalogin">Senha</string>
+    <string name="action_login">Login</string>
+    <string name="action_registrar">Registrar</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Bem vindo !"</string>
+    <string name="invalid_username">Email invalido</string>
+    <string name="invalid_password">Senha possui menos que 5 caracteres</string>
+    <string name="login_failed">"Falha no login"</string>
+</resources>
