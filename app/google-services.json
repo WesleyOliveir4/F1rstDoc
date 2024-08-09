@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "707473355918",
+    "project_id": "f1rstdoc",
+    "storage_bucket": "f1rstdoc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707473355918:android:75854fd081980690cd05df",
+        "android_client_info": {
+          "package_name": "com.example.f1rstdoc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdTAg4LBy6Npc3d7r1YwAOWGAKbjYJQjs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

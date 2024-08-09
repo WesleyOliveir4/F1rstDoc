@@ -2,9 +2,22 @@
     <!-- Base application theme. -->
     <style name="Theme.F1rstDoc" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/teal_200</item>
+        <item name="colorPrimary">@color/meio</item>
+
+<!--        <item name="colorAccent">@color/meio</item>-->
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.full" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="Theme.fullNoTitle" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/meio</item>
+
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+    </style>
+
 </resources>
