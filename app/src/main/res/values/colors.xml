@@ -10,4 +10,8 @@
 
     <color name="inicial">#F3393B</color>
     <color name="meio">#A40001</color>
+
+    <color name="principal">#272626</color>
+    <color name="principal_50per">#50272626</color>
+    <color name="principal_80per">#00272626</color>
 </resources>

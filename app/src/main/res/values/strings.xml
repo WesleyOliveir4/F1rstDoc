@@ -11,6 +11,14 @@
     <string name="invalid_username">Email invalido</string>
     <string name="invalid_password">Senha possui menos que 5 caracteres</string>
     <string name="login_failed">"Falha no login"</string>
- <string name="title_registrar">Registrar</string>
+    <string name="title_registrar">Registrar</string>
     <string name="login">Login</string>
+
+
+    // Login
+    <string name="entrar">Entrar</string>
+    <string name="criar_conta">Criar conta</string>
+    <string name="acessar_sua_conta">Acessar sua conta</string>
+    <string name="criar_sua_conta">Crie sua conta</string>
+    <string name="registrar">Registrar</string>
 </resources>

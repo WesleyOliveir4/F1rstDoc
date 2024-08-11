@@ -32,7 +32,7 @@ class LoginActivity: AppCompatActivity() {
     }
 
     private fun login() {
-        binding.btnLogin.setOnClickListener {
+        binding.btnEntrar.setOnClickListener {
             val senha = binding.senhalogin.text.toString()
             val email = binding.emaillogin.text.toString()
 
@@ -62,7 +62,7 @@ class LoginActivity: AppCompatActivity() {
     }
 
     private fun redirectToRegister() {
-        binding.btnRegistrar.setOnClickListener {
+        binding.btnCriarConta.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
     }

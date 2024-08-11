@@ -19,7 +19,7 @@
         <item name="android:layout_marginLeft">40dp</item>
         <item name="android:layout_marginRight">40dp</item>
         <item name="android:layout_marginTop">5dp</item>
-        <item name="android:background">@drawable/button</item>
+        <item name="android:background">@drawable/button_login</item>
         <item name="android:color">@color/meio</item>
     </style>
 
@@ -31,12 +31,44 @@
         <item name="android:layout_marginTop">25dp</item>
     </style>
 
+
+
+    // Splash
+
+    <style name="editButtonEntrarStyleSplash">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">40dp</item>
+        <item name="android:layout_marginRight">40dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:background">@drawable/button_login</item>
+        <item name="android:color">@color/meio</item>
+    </style>
+
+    <style name="editButtonCriarContaStyleSplash">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">80dp</item>
+        <item name="android:layout_marginRight">80dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:background">@drawable/button_register_login</item>
+        <item name="android:color">@color/meio</item>
+    </style>
+
+    <style name="containerLoginComponents">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/container_login_components</item>
+        <item name="android:layout_marginTop">200dp</item>
+    </style>
+
     <style name="containerRegisterComponents">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">250dp</item>
-        <item name="android:background">@drawable/container_components</item>
-        <item name="android:layout_margin">20dp</item>
-        <item name="android:layout_marginTop">25dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/container_login_components</item>
+        <item name="android:layout_marginTop">150dp</item>
     </style>
 
 </resources>
