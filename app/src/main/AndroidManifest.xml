@@ -12,7 +12,7 @@
         android:theme="@style/Theme.F1rstDoc"
         tools:targetApi="31">
             <activity
-                android:name=".presentation.login.LoginActivity"
+                android:name=".presentation.splash.SplashActivity"
                 android:theme="@style/Theme.full"
                 android:exported="true">
                 <intent-filter>
@@ -21,6 +21,16 @@
                     <category android:name="android.intent.category.LAUNCHER" />
                 </intent-filter>
             </activity>
+
+        <activity
+            android:name=".presentation.login.LoginActivity"
+            android:theme="@style/Theme.full"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
 
         <activity
             android:name=".presentation.register.RegisterActivity"
