@@ -15,10 +15,13 @@
     <string name="login">Login</string>
 
 
-    // Login
+    // Login and Create Account
     <string name="entrar">Entrar</string>
     <string name="criar_conta">Criar conta</string>
     <string name="acessar_sua_conta">Acessar sua conta</string>
     <string name="criar_sua_conta">Crie sua conta</string>
     <string name="registrar">Registrar</string>
+
+
+
 </resources>
