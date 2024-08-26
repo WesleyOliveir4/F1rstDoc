@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.f1rstdoc.databinding.ActivityLoginBinding
 import com.example.f1rstdoc.domain.firebase.model.FirebaseAuthResult
-import com.example.f1rstdoc.presentation.home.HomeActivity
+import com.example.f1rstdoc.presentation.docs.HomeActivity
 import com.example.f1rstdoc.presentation.login.viewmodel.LoginViewModel
 import com.example.f1rstdoc.presentation.register.RegisterActivity
 import com.google.firebase.auth.FirebaseAuth

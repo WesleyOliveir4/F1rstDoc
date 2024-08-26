@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.f1rstdoc.presentation.docs.home.HomeFragment"
+        android:label="DevK"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_createDocsFragment"
+            app:destination="@id/createDocsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_editDocsFragment"
+            app:destination="@id/editDocsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createDocsFragment"
+        android:name="com.example.f1rstdoc.presentation.docs.create.CreateDocsFragment"
+        android:label="Add Docs"
+        tools:layout="@layout/fragment_create_docs" >
+        <action
+            android:id="@+id/action_createDocsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editDocsFragment"
+        android:name="com.example.f1rstdoc.presentation.docs.edit.EditDocsFragment"
+        android:label="Edit Docs"
+        tools:layout="@layout/fragment_edit_docs" >
+        <action
+            android:id="@+id/action_editDocsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="data"
+            app:argType="com.example.f1rstdoc.domain.docs.model.Docs" />
+    </fragment>
+</navigation>

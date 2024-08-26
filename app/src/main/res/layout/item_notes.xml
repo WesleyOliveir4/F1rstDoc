@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="#707070"
+        app:cardCornerRadius="10dp">
+        <View
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="right"
+            android:layout_margin="10dp"
+            android:id="@+id/viewPriority"
+            android:background="@drawable/red_dot"/>
+        
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:id="@+id/notesTitle"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:maxLines="1"
+                    android:fontFamily="sans-serif-black"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="This is an Amazing Video on how to create a notes App from starting to end and in this video, I will help you to create your own notes app using Android (Kotlin) we will work with MVVM, Navigation Components, Live Data, Room Database and Kotlin components so video will be amazing so like this video and share with your friends"
+                    android:id="@+id/notesSubTitle"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif-black"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="25 dezembro 2022"
+                    android:id="@+id/notesData"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dp"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-black"
+                    />
+
+            </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
