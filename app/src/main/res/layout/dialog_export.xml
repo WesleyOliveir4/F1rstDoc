@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    
+    <View
+        android:layout_width="130dp"
+        android:layout_height="10dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="#ABABAB"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Você deseja exportar\n os dados do DevK\nno dispositivo?"
+        android:gravity="center"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="18sp"
+        />
+
+    <TextView
+        android:id="@+id/dialog_yes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:background="@drawable/yes_btn"
+        android:fontFamily="sans-serif-black"
+        android:text="Sim" />
+
+    <TextView
+        android:id="@+id/dialog_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20sp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:padding="10dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Não"/>
+
+
+</LinearLayout>

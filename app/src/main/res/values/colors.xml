@@ -14,4 +14,8 @@
     <color name="principal">#272626</color>
     <color name="principal_50per">#50272626</color>
     <color name="principal_80per">#00272626</color>
+
+    <color name="green">#61CC65</color>
+    <color name="red">#E31F45</color>
+    <color name="yellow">#EDDC40</color>
 </resources>

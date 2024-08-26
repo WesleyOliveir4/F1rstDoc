@@ -22,6 +22,21 @@
     <string name="criar_sua_conta">Crie sua conta</string>
     <string name="registrar">Registrar</string>
 
+    //Message Builder
+    <string name="create_docs_success">Documento salvo</string>
+    <string name="delete_docs_success">Documento deletado com sucesso</string>
+    <string name="delete_docs_failure">Ocorreu um erro!</string>
+    <string name="update_docs_success">Documento salvo</string>
+    <string name="update_docs_failure">Erro ao salvar!</string>
+    <string name="save_docs_firebase_success">Salvo na cloud com sucesso</string>
+    <string name="save_docs_firebase_failure">Falha ao salvar</string>
+    <string name="save_docs_storage_success">Docs exportados com sucesso</string>
+    <string name="save_docs_storage_failure">Falha na exportação</string>
+
+
+    <string name="state_create_docs_success">Documento criado</string>
+    <string name="state_create_docs_failure">Falha ao salvar, documento vazio</string>
+
 
 
 </resources>

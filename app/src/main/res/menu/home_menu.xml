@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="CloudFirebase"
+        app:showAsAction="always"
+        android:id="@+id/cloud_menu"
+        android:iconTint="@color/white"
+        android:icon="@drawable/ic_cloud_firebase"/>
+
+    <item android:title="Exportar"
+        app:showAsAction="always"
+        android:id="@+id/export_menu"
+        android:iconTint="@color/white"
+        android:icon="@drawable/ic_save"/>
+</menu>
