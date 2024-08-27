@@ -8,7 +8,7 @@ import com.example.f1rstdoc.databinding.ItemNotesBinding
 import com.example.f1rstdoc.domain.docs.model.Docs
 import com.example.f1rstdoc.presentation.docs.home.HomeFragmentDirections
 
-class NotesAdapter(private val notesList: List<Docs>) :
+class NotesAdapter(private val docsList: List<Docs>) :
     RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
 
     class NotesViewHolder(val binding: ItemNotesBinding) : RecyclerView.ViewHolder(binding.root)
@@ -24,10 +24,10 @@ class NotesAdapter(private val notesList: List<Docs>) :
     }
 
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
-        val data = notesList[position]
-        holder.binding.notesTitle.text = notesList[position].title
-        holder.binding.notesSubTitle.text = notesList[position].subTitle
-        holder.binding.notesData.text = data.date
+        val data = docsList[position]
+        holder.binding.docTitle.text = docsList[position].title
+        holder.binding.docSubTitle.text = docsList[position].subTitle
+        holder.binding.docData.text = data.date
 
         holder.binding.root.setOnClickListener{
             val action=HomeFragmentDirections.actionHomeFragmentToEditDocsFragment(data)
@@ -38,5 +38,5 @@ class NotesAdapter(private val notesList: List<Docs>) :
 
     }
 
-    override fun getItemCount() = notesList.size
+    override fun getItemCount() = docsList.size
 }

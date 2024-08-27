@@ -23,7 +23,7 @@ class DocsViewModel(private val docsRoomDatabaseUseCase: DocsRoomDatabaseUseCase
         private val _stateCreateNotes by lazy { MutableLiveData<CreateNotesState<String>>() }
         val stateCreateNotes: LiveData<CreateNotesState<String>> get()= _stateCreateNotes
 
-    fun factoryDocs(it: View?, title: String, subTitle: String, doc: String, id: Int?) : Docs {
+    fun factoryDocs(title: String, subTitle: String, doc: String, id: Int?) : Docs {
 
         val d = Date()
         val notesDate: CharSequence = DateFormat.format("d MMMM yyyy", d.time)
@@ -48,15 +48,15 @@ class DocsViewModel(private val docsRoomDatabaseUseCase: DocsRoomDatabaseUseCase
 
     fun createNotes(it: View?, title: String, subTitle: String, doc: String){
         if(title.isNotEmpty() || subTitle.isNotEmpty() || doc.isNotEmpty() ){
-            docsRoomDatabaseUseCase.insertDocs(factoryDocs(it,title,subTitle,doc,null))
+            docsRoomDatabaseUseCase.insertDocs(factoryDocs(title,subTitle,doc,null))
             _stateCreateNotes.postValue(CreateNotesState.Success("Documento criado"))
         }else{
             _stateCreateNotes.postValue(CreateNotesState.Failure("Falha ao salvar, documento vazio"))
         }
     }
 
-    fun updateDocs(it: View?, title: String, subTitle: String, doc: String, id: Int){
-        docsRoomDatabaseUseCase.updateDocs(factoryDocs(it,title,subTitle,doc,id))
+    fun updateDocs(title: String, subTitle: String, doc: String, id: Int){
+        docsRoomDatabaseUseCase.updateDocs(factoryDocs(title,subTitle,doc,id))
     }
 
     fun writeToFile(listNotes: List<Docs>){

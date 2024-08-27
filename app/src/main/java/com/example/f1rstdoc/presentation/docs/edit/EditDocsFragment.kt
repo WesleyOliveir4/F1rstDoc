@@ -39,8 +39,7 @@ class EditDocsFragment: Fragment() {
 
         binding.btnEditSaveNotes.setOnClickListener{
             try {
-                docsViewModel.updateDocs(
-                    it,
+                docsViewModel.updateDocs (
                     binding.edtTitle.text.toString(),
                     binding.edtSubTitle.text.toString(),
                     binding.edtNotes.text.toString(),
