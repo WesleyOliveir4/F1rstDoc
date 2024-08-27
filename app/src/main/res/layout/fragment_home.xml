@@ -3,82 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#272626"
+    android:background="@color/principal"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.docs.HomeActivity">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
-
-<!--            <ImageView-->
-<!--                android:id="@+id/allNotes"-->
-<!--                android:layout_width="25dp"-->
-<!--                android:layout_height="25dp"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:background="@drawable/ic_filtro"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                 />-->
-<!--            <TextView-->
-<!--                android:id="@+id/filterHigh"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textColor="@color/red"-->
-<!--                android:textSize="18sp"-->
-<!--                android:paddingStart="25dp"-->
-<!--                android:paddingEnd="25dp"-->
-<!--                android:paddingTop="10dp"-->
-<!--                android:paddingBottom="10dp"-->
-<!--                android:background="@drawable/btn_filtro_shape"-->
-<!--                android:fontFamily="sans-serif-medium"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/allNotes"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                android:text="High"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/filterMedium"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textColor="@color/yellow"-->
-<!--                android:textSize="18sp"-->
-<!--                android:paddingStart="25dp"-->
-<!--                android:paddingEnd="25dp"-->
-<!--                android:paddingTop="10dp"-->
-<!--                android:paddingBottom="10dp"-->
-<!--                android:background="@drawable/btn_filtro_shape"-->
-<!--                android:fontFamily="sans-serif-medium"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/filterHigh"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:layout_constraintEnd_toStartOf="@id/filterLow"-->
-<!--                android:text="Medium"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/filterLow"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textColor="@color/green"-->
-<!--                android:textSize="18sp"-->
-<!--                android:paddingStart="25dp"-->
-<!--                android:paddingEnd="25dp"-->
-<!--                android:paddingTop="10dp"-->
-<!--                android:paddingBottom="10dp"-->
-<!--                android:background="@drawable/btn_filtro_shape"-->
-<!--                android:fontFamily="sans-serif-medium"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/filterMedium"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                android:layout_marginEnd="30dp"-->
-<!--                android:text="Low"/>-->
-
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -101,7 +31,7 @@
             android:clickable="true"
             android:contentDescription="Adicionar"
             android:src="@drawable/ic_adicionar"
-            app:backgroundTint="#5E17EB"
+            app:backgroundTint="@color/meio"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

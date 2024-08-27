@@ -91,6 +91,6 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="26dp"
         android:src="@drawable/ic_check"
-        app:backgroundTint="#5E17EB" />
+        app:backgroundTint="@color/meio" />
 
 </FrameLayout>

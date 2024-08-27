@@ -43,27 +43,6 @@
             android:layout_marginTop="10dp"
             android:layout_height="25dp">
 
-<!--            <ImageView-->
-<!--                android:layout_width="25dp"-->
-<!--                android:layout_height="25dp"-->
-<!--                android:layout_marginStart="20dp"-->
-<!--                android:id="@+id/optEditRed"-->
-<!--                android:background="@drawable/red_dot"/>-->
-
-<!--            <ImageView-->
-<!--                android:layout_width="25dp"-->
-<!--                android:layout_height="25dp"-->
-<!--                android:layout_marginStart="20dp"-->
-<!--                android:id="@+id/optEditYellow"-->
-<!--                android:background="@drawable/yellow_dot"/>-->
-
-<!--            <ImageView-->
-<!--                android:layout_width="25dp"-->
-<!--                android:layout_height="25dp"-->
-<!--                android:layout_marginStart="20dp"-->
-<!--                android:id="@+id/optEditGreen"-->
-<!--                android:background="@drawable/green_dot"/>-->
-
         </LinearLayout>
 
 
@@ -90,6 +69,6 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="26dp"
         android:src="@drawable/ic_check"
-        app:backgroundTint="#5E17EB" />
+        app:backgroundTint="@color/meio" />
 
 </FrameLayout>
