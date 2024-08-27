@@ -2,8 +2,9 @@ package com.example.f1rstdoc.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.f1rstdoc.R
+import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
 import com.example.f1rstdoc.databinding.ActivityLoginBinding
 import com.example.f1rstdoc.domain.firebase.model.FirebaseAuthResult
 import com.example.f1rstdoc.presentation.docs.HomeActivity
@@ -45,21 +46,11 @@ class LoginActivity : AppCompatActivity() {
             loginViewModel.stateLoginAuth.observe(this) { result ->
                 when (result) {
                     is FirebaseAuthResult.Success -> {
-                        Toast.makeText(
-                            this,
-                            "Logado",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
                         startActivity(Intent(this, HomeActivity::class.java))
                         finish()
                     }
                     is FirebaseAuthResult.Error -> {
-                        Toast.makeText(
-                            this,
-                            "email ou senha invalidos",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        MessageBuilderUtils(this).MessageShow(R.string.error_generic_login.toString())
                     }
                 }
             }

@@ -1,4 +1,4 @@
-package com.example.devk.data.Message
+package com.example.f1rstdoc.presentation.utils
 
 import android.content.Context
 import android.widget.TextView
@@ -7,7 +7,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.*
 
 
-class MessageBuilder(
+class MessageBuilderUtils(
     private val context: Context,
 ) {
 

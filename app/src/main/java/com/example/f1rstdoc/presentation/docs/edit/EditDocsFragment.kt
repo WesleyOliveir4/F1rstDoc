@@ -3,13 +3,11 @@ package com.example.f1rstdoc.presentation.docs.edit
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
-import com.example.devk.data.Message.MessageBuilder
+import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
 import com.example.f1rstdoc.R
 import com.example.f1rstdoc.databinding.FragmentEditDocsBinding
 import com.example.f1rstdoc.presentation.docs.viewmodel.DocsViewModel
@@ -45,11 +43,11 @@ class EditDocsFragment: Fragment() {
                     binding.edtNotes.text.toString(),
                     oldNotes.data.id!!)
 
-                MessageBuilder(requireContext()).MessageShowTimer( getString(R.string.update_docs_success),1500)
+                MessageBuilderUtils(requireContext()).MessageShowTimer( getString(R.string.update_docs_success),1500)
                 Navigation.findNavController((it!!)).navigate(R.id.action_editDocsFragment_to_homeFragment)
             }catch (e: Exception){
                 Log.e("exception in editSaveNotesListener ","$e")
-                MessageBuilder(requireContext()).MessageShow(getString(R.string.update_docs_failure))
+                MessageBuilderUtils(requireContext()).MessageShow(getString(R.string.update_docs_failure))
             }
 
         }
@@ -74,11 +72,11 @@ class EditDocsFragment: Fragment() {
             textviewYes?.setOnClickListener{
                try{
                    docsViewModel.deleteNotes(oldNotes.data.id!!)
-                   MessageBuilder(requireContext()).MessageShowTimer(getString(R.string.delete_docs_success),1500)
+                   MessageBuilderUtils(requireContext()).MessageShowTimer(getString(R.string.delete_docs_success),1500)
                    bottomSheet.dismiss()
                    requireActivity().onBackPressed()
                }catch(e: Exception){
-                   MessageBuilder(requireContext()).MessageShow(getString(R.string.delete_docs_failure))
+                   MessageBuilderUtils(requireContext()).MessageShow(getString(R.string.delete_docs_failure))
                }
 
             }

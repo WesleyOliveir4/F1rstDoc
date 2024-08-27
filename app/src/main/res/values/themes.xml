@@ -8,7 +8,9 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.full" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.full" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/principal</item>
     </style>
 

@@ -5,10 +5,9 @@ import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.devk.data.Message.MessageBuilder
+import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
 import com.example.devk.presentation.state.SaveNotesState
 import com.example.devk.presentation.ui.Adapter.NotesAdapter
 import com.example.f1rstdoc.R
@@ -80,12 +79,12 @@ class HomeFragment : Fragment() {
                 textviewYes?.setOnClickListener {
                     try {
                         docsViewModel.writeToFile(docsList)
-                        MessageBuilder(requireContext()).MessageShowTimer(
+                        MessageBuilderUtils(requireContext()).MessageShowTimer(
                             getString(R.string.save_docs_storage_success),
                             1500
                         )
                     } catch (e: Exception) {
-                        MessageBuilder(requireContext()).MessageShow(getString(R.string.save_docs_storage_failure))
+                        MessageBuilderUtils(requireContext()).MessageShow(getString(R.string.save_docs_storage_failure))
                         Log.e("Exception", "Falha na exportação: $e ")
                     }
                     bottomSheet.dismiss()
@@ -116,13 +115,13 @@ class HomeFragment : Fragment() {
 
                             }
                             is SaveNotesState.Success -> {
-                                MessageBuilder(requireActivity()).MessageShowTimer(
+                                MessageBuilderUtils(requireActivity()).MessageShowTimer(
                                     getString(R.string.save_docs_firebase_success),
                                     1500
                                 )
                             }
                             is SaveNotesState.Failure -> {
-                                MessageBuilder(requireActivity()).MessageShow(getString(R.string.save_docs_firebase_failure))
+                                MessageBuilderUtils(requireActivity()).MessageShow(getString(R.string.save_docs_firebase_failure))
                             }
 
                         }
