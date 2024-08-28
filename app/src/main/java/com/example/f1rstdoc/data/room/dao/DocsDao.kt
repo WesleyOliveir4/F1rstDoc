@@ -11,8 +11,8 @@ import com.example.f1rstdoc.domain.docs.model.Docs
 @Dao
 interface DocsDao {
 
-    @Query("SELECT * FROM Docs")
-    fun getDocs():LiveData<List<Docs>>
+    @Query("SELECT * FROM Docs WHERE idUser=:idUser")
+    fun getDocs(idUser:String):LiveData<List<Docs>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDocs(docs: Docs)

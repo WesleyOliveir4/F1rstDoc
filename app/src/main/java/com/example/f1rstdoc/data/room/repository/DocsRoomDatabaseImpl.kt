@@ -6,8 +6,8 @@ import com.example.f1rstdoc.domain.docs.model.Docs
 import com.example.f1rstdoc.domain.docs.usecase.DocsRoomDatabaseUseCase
 
 class DocsRoomDatabaseImpl(private val docsDao: DocsDao):DocsRoomDatabaseUseCase {
-    override fun getDocs(): LiveData<List<Docs>> {
-        return docsDao.getDocs()
+    override fun getDocs(idUser: String): LiveData<List<Docs>> {
+        return docsDao.getDocs(idUser)
     }
 
     override fun insertDocs(docs: Docs) {

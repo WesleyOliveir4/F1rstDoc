@@ -10,6 +10,7 @@ import kotlinx.android.parcel.Parcelize
 class Docs(
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null,
+    var idUser: String,
     var title: String,
     var subTitle: String,
     var doc: String,

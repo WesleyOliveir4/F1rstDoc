@@ -32,7 +32,7 @@ class CreateDocsFragment : Fragment() {
             val subTitle = binding.edtSubTitle.text.toString()
             val notes = binding.edtNotes.text.toString()
 
-            docsViewModel.createNotes(it,title,subTitle,notes)
+            docsViewModel.createNotes(title,subTitle,notes)
             docsViewModel.stateCreateNotes.observe(viewLifecycleOwner){ stateCreateNotes ->
                 when (stateCreateNotes) {
                     is CreateNotesState.Loading -> {

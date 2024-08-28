@@ -46,6 +46,8 @@ class LoginActivity : AppCompatActivity() {
             loginViewModel.stateLoginAuth.observe(this) { result ->
                 when (result) {
                     is FirebaseAuthResult.Success -> {
+                        loginViewModel.saveUserPrefLogin(email)
+
                         startActivity(Intent(this, HomeActivity::class.java))
                         finish()
                     }
