@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.example.devk.data.Message.MessageBuilder
+import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
 import com.example.devk.presentation.state.CreateNotesState
 import com.example.f1rstdoc.R
 import com.example.f1rstdoc.databinding.FragmentCreateDocsBinding
@@ -32,7 +32,7 @@ class CreateDocsFragment : Fragment() {
             val subTitle = binding.edtSubTitle.text.toString()
             val notes = binding.edtNotes.text.toString()
 
-            docsViewModel.createNotes(it,title,subTitle,notes)
+            docsViewModel.createNotes(title,subTitle,notes)
             docsViewModel.stateCreateNotes.observe(viewLifecycleOwner){ stateCreateNotes ->
                 when (stateCreateNotes) {
                     is CreateNotesState.Loading -> {
@@ -40,13 +40,13 @@ class CreateDocsFragment : Fragment() {
                     }
                     is CreateNotesState.Success -> {
                         Navigation.findNavController((it!!)).navigate(R.id.action_createDocsFragment_to_homeFragment)
-                        MessageBuilder(requireContext()).MessageShowTimer(
+                        MessageBuilderUtils(requireContext()).MessageShowTimer(
                             getString(R.string.create_docs_success),
                             1500
                         )
                     }
                     is CreateNotesState.Failure -> {
-                        MessageBuilder(requireActivity()).MessageShow(stateCreateNotes.error)
+                        MessageBuilderUtils(requireActivity()).MessageShow(stateCreateNotes.error)
                     }
 
                 }

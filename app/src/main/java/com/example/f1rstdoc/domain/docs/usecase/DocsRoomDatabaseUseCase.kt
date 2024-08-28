@@ -6,7 +6,7 @@ import com.example.f1rstdoc.domain.docs.model.Docs
 
 interface DocsRoomDatabaseUseCase {
 
-    fun getDocs(): LiveData<List<Docs>>
+    fun getDocs(idUser: String): LiveData<List<Docs>>
 
     fun insertDocs(docs: Docs)
 

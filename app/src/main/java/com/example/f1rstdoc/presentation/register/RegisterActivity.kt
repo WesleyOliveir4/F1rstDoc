@@ -1,8 +1,9 @@
 package com.example.f1rstdoc.presentation.register
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.f1rstdoc.R
+import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
 import com.example.f1rstdoc.databinding.ActivityRegistrarBinding
 import com.example.f1rstdoc.domain.firebase.model.FirebaseAuthResult
 import com.example.f1rstdoc.presentation.register.viewmodel.RegisterViewModel
@@ -42,18 +43,10 @@ class RegisterActivity : AppCompatActivity() {
         registerViewModel.stateCreateUser.observe(this){ resultCreateUser ->
              when (resultCreateUser) {
                 is FirebaseAuthResult.Success -> {
-                    Toast.makeText(
-                        this,
-                        "Conta Registrada",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    MessageBuilderUtils(this).MessageShow(R.string.create_account.toString())
                 }
                 is FirebaseAuthResult.Error -> {
-                    Toast.makeText(
-                        this,
-                        resultCreateUser.exception,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    MessageBuilderUtils(this).MessageShow(resultCreateUser.exception)
                 }
             }
         }

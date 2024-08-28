@@ -33,9 +33,10 @@
     <string name="save_docs_storage_success">Docs exportados com sucesso</string>
     <string name="save_docs_storage_failure">Falha na exportação</string>
 
-
     <string name="state_create_docs_success">Documento criado</string>
     <string name="state_create_docs_failure">Falha ao salvar, documento vazio</string>
+    <string name="create_account">Conta Registrada</string>
+    <string name="error_generic_login">email ou senha invalidos</string>
 
 
 

@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.f1rstdoc.domain.firebase.usecase.FirebaseAuthUseCase
 import com.example.f1rstdoc.domain.firebase.model.FirebaseAuthResult
+import com.example.f1rstdoc.domain.sharedpreferences.usecase.PreferencesUserLoginUseCase
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val firebaseAuthUseCase: FirebaseAuthUseCase
+    private val firebaseAuthUseCase: FirebaseAuthUseCase,
+    private val preferencesUserLoginUseCase: PreferencesUserLoginUseCase
 ) : ViewModel(){
 
     private val _stateLoginAuth by lazy { MutableLiveData<FirebaseAuthResult<Boolean>>() }
@@ -18,6 +20,12 @@ class LoginViewModel(
     fun loginAuth(email: String, senha : String) {
         viewModelScope.launch {
             firebaseAuthUseCase.singIn(email, senha) { _stateLoginAuth.value = it }
+        }
+    }
+
+    fun saveUserPrefLogin(userId: String){
+        viewModelScope.launch {
+            preferencesUserLoginUseCase.saveUserPref(true,userId)
         }
     }
 }
