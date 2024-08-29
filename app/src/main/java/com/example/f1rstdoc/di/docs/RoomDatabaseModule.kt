@@ -10,7 +10,7 @@ import org.koin.dsl.module
 val roomDatabaseModule = module {
 
     single<DocsDao>{
-        DocsDatabase.getDatabaseInstance(androidContext()).myNotesDao()
+        DocsDatabase.getDatabaseInstance(androidContext()).myDocsDao()
     }
 
     factory<DocsRoomDatabaseUseCase>  {

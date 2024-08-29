@@ -21,6 +21,26 @@ class MessageBuilderUtils(
         bottomSheet.show()
     }
 
+    fun bottomSheetItem(layoutBottomSheet: Int): BottomSheet {
+
+        val bottomSheet: BottomSheetDialog =
+            BottomSheetDialog(context, R.style.BottomSheetStyle)
+        bottomSheet.setContentView(layoutBottomSheet)
+        val textviewYes = bottomSheet.findViewById<TextView>(R.id.dialog_yes)
+        val textviewNo = bottomSheet.findViewById<TextView>(R.id.dialog_no)
+        bottomSheet.show()
+        return BottomSheet(
+            yesBtn = textviewYes,
+            noBtn = textviewNo,
+            bottomSheet = bottomSheet
+        )
+    }
+
+    class BottomSheet(
+        val yesBtn : TextView?,
+        val noBtn : TextView?,
+        val bottomSheet : BottomSheetDialog,
+    )
 
     fun MessageShowTimer(message: String, delay: Long?) {
 

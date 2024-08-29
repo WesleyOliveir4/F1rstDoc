@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
-import com.example.devk.presentation.state.CreateNotesState
 import com.example.f1rstdoc.R
 import com.example.f1rstdoc.databinding.FragmentCreateDocsBinding
+import com.example.f1rstdoc.presentation.docs.state.CreateDocsState
 import com.example.f1rstdoc.presentation.docs.viewmodel.DocsViewModel
+import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreateDocsFragment : Fragment() {
@@ -22,41 +22,40 @@ class CreateDocsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentCreateDocsBinding.inflate(layoutInflater, container, false)
         setHasOptionsMenu(true)
 
-        binding.btnEditSaveNotes.setOnClickListener {
+        createDocs()
+
+        return binding.root
+    }
+
+    private fun createDocs() {
+        binding.btnSaveDocs.setOnClickListener {
             val title = binding.edtTitle.text.toString()
             val subTitle = binding.edtSubTitle.text.toString()
-            val notes = binding.edtNotes.text.toString()
+            val docs = binding.edtDoc.text.toString()
 
-            docsViewModel.createNotes(title,subTitle,notes)
-            docsViewModel.stateCreateNotes.observe(viewLifecycleOwner){ stateCreateNotes ->
-                when (stateCreateNotes) {
-                    is CreateNotesState.Loading -> {
-
-                    }
-                    is CreateNotesState.Success -> {
-                        Navigation.findNavController((it!!)).navigate(R.id.action_createDocsFragment_to_homeFragment)
+            docsViewModel.createDocs(title, subTitle, docs)
+            docsViewModel.stateCreateDocs.observe(viewLifecycleOwner) { stateCreateDocs ->
+                when (stateCreateDocs) {
+                    is CreateDocsState.Success -> {
+                        Navigation.findNavController((it!!))
+                            .navigate(R.id.action_createDocsFragment_to_homeFragment)
                         MessageBuilderUtils(requireContext()).MessageShowTimer(
                             getString(R.string.create_docs_success),
                             1500
                         )
                     }
-                    is CreateNotesState.Failure -> {
-                        MessageBuilderUtils(requireActivity()).MessageShow(stateCreateNotes.error)
+                    is CreateDocsState.Failure -> {
+                        MessageBuilderUtils(requireActivity()).MessageShow(getString(R.string.error_save_doc_is_empty))
                     }
 
                 }
 
             }
-
-
         }
-
-        return binding.root
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

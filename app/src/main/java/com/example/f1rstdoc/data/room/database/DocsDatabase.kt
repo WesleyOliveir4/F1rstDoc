@@ -9,7 +9,7 @@ import com.example.f1rstdoc.domain.docs.model.Docs
 
 @Database(entities = [Docs::class], version = 1, exportSchema = false)
 abstract class DocsDatabase : RoomDatabase() {
-    abstract fun myNotesDao(): DocsDao
+    abstract fun myDocsDao(): DocsDao
 
     companion object
     {
