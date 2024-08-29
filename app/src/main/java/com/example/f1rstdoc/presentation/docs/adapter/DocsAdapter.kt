@@ -1,21 +1,21 @@
-package com.example.devk.presentation.ui.Adapter
+package com.example.f1rstdoc.presentation.docs.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.example.f1rstdoc.databinding.ItemNotesBinding
+import com.example.f1rstdoc.databinding.ItemDocsBinding
 import com.example.f1rstdoc.domain.docs.model.Docs
 import com.example.f1rstdoc.presentation.docs.home.HomeFragmentDirections
 
-class NotesAdapter(private val docsList: List<Docs>) :
-    RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
+class DocsAdapter(private val docsList: List<Docs>) :
+    RecyclerView.Adapter<DocsAdapter.DocsViewHolder>() {
 
-    class NotesViewHolder(val binding: ItemNotesBinding) : RecyclerView.ViewHolder(binding.root)
+    class DocsViewHolder(val binding: ItemDocsBinding) : RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
-        return NotesViewHolder(
-            ItemNotesBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DocsViewHolder {
+        return DocsViewHolder(
+            ItemDocsBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -23,7 +23,7 @@ class NotesAdapter(private val docsList: List<Docs>) :
         )
     }
 
-    override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DocsViewHolder, position: Int) {
         val data = docsList[position]
         holder.binding.docTitle.text = docsList[position].title
         holder.binding.docSubTitle.text = docsList[position].subTitle

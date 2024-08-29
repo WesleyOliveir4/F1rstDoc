@@ -53,7 +53,7 @@
             android:background="@drawable/edt_text_shape"
             android:padding="15dp"
             android:gravity="start"
-            android:id="@+id/edtNotes"
+            android:id="@+id/edtDocs"
             android:layout_marginTop="10dp"
             android:hint="Texto..."
             android:textColorHint="@color/white"/>
@@ -63,7 +63,7 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnEditSaveNotes"
+        android:id="@+id/btnEditSaveDocs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"

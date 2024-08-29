@@ -38,6 +38,9 @@
     <string name="create_account">Conta Registrada</string>
     <string name="error_generic_login">email ou senha invalidos</string>
 
+   //Create Doc
+    <string name="error_save_doc_is_empty">Falha ao salvar, documento vazio</string>
+
 
 
 </resources>
