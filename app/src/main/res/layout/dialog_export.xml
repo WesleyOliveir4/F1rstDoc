@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Você deseja exportar\n os dados do DevK\nno dispositivo?"
+        android:text="Você deseja exportar\n os dados do F1rstDoc\nno dispositivo?"
         android:gravity="center"
         android:fontFamily="sans-serif-condensed"
         android:textSize="18sp"
