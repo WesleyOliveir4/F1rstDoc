@@ -14,8 +14,8 @@ class LoginViewModel(
     private val preferencesUserLoginUseCase: PreferencesUserLoginUseCase
 ) : ViewModel(){
 
-    private val _stateLoginAuth by lazy { MutableLiveData<FirebaseAuthResult<Boolean>>() }
-    val stateLoginAuth: LiveData<FirebaseAuthResult<Boolean>> get()= _stateLoginAuth
+    private val _stateLoginAuth by lazy { MutableLiveData<FirebaseAuthResult<String>>() }
+    val stateLoginAuth: LiveData<FirebaseAuthResult<String>> get()= _stateLoginAuth
 
     fun loginAuth(email: String, senha : String) {
         viewModelScope.launch {
@@ -23,9 +23,9 @@ class LoginViewModel(
         }
     }
 
-    fun saveUserPrefLogin(userId: String){
+    fun saveUserPrefLogin(email: String, userUid: String){
         viewModelScope.launch {
-            preferencesUserLoginUseCase.saveUserPref(true,userId)
+            preferencesUserLoginUseCase.saveUserPref(true,email,userUid)
         }
     }
 }

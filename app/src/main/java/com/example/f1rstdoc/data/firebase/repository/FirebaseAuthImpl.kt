@@ -1,8 +1,8 @@
 package com.example.f1rstdoc.data.firebase.repository
 
 import com.example.f1rstdoc.data.firebase.identifiers.FirebaseAuthIdentifier
-import com.example.f1rstdoc.domain.firebase.usecase.FirebaseAuthUseCase
 import com.example.f1rstdoc.domain.firebase.model.FirebaseAuthResult
+import com.example.f1rstdoc.domain.firebase.usecase.FirebaseAuthUseCase
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -18,15 +18,15 @@ class FirebaseAuthImpl : FirebaseAuthUseCase {
     override suspend fun singIn(
         email: String,
         senha: String,
-        result: (FirebaseAuthResult<Boolean>) -> Unit
+        result: (FirebaseAuthResult<String>) -> Unit
     ) {
         mAuth.signInWithEmailAndPassword(email,senha).addOnCompleteListener{ task ->
             when (task.isSuccessful) {
                 true -> {
-                    result.invoke(FirebaseAuthResult.Success(data = task.isSuccessful))
+                    result.invoke(FirebaseAuthResult.Success(data = mAuth.uid!!))
                 }
                 else -> {
-                    result.invoke(FirebaseAuthResult.Error(exception =FirebaseAuthIdentifier.ERROR_GENERIC_SING_IN.toString()))
+                    result.invoke(FirebaseAuthResult.Error(exception = FirebaseAuthIdentifier.ERROR_GENERIC_SING_IN.toString()))
                 }
             }
         }

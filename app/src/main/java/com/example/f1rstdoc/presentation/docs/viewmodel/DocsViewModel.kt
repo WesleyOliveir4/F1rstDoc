@@ -3,17 +3,21 @@ package com.example.f1rstdoc.presentation.docs.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.f1rstdoc.domain.docs.model.Docs
 import com.example.f1rstdoc.domain.docs.usecase.DocsRoomDatabaseUseCase
-import com.example.f1rstdoc.domain.sharedpreferences.enums.SharedPreferencesIdentifiers
+import com.example.f1rstdoc.domain.firebase.model.RealtimeDatabaseResult
+import com.example.f1rstdoc.domain.firebase.usecase.RealtimeDatabaseUseCase
 import com.example.f1rstdoc.domain.sharedpreferences.usecase.PreferencesUserLoginUseCase
 import com.example.f1rstdoc.presentation.docs.state.CreateDocsState
 import com.example.f1rstdoc.presentation.docs.state.SaveDocsState
 import com.example.f1rstdoc.presentation.utils.factoryDocs
+import kotlinx.coroutines.launch
 
 class DocsViewModel(
     private val docsRoomDatabaseUseCase: DocsRoomDatabaseUseCase,
-    private val preferencesUserLoginUseCase: PreferencesUserLoginUseCase
+    private val preferencesUserLoginUseCase: PreferencesUserLoginUseCase,
+    private val realtimeDatabaseUseCase: RealtimeDatabaseUseCase
 ) : ViewModel() {
 
     private val _stateSaveDocs by lazy { MutableLiveData<SaveDocsState<String>>() }
@@ -22,10 +26,11 @@ class DocsViewModel(
     private val _stateCreateDocs by lazy { MutableLiveData<CreateDocsState<String>>() }
     val stateCreateDocs: LiveData<CreateDocsState<String>> get() = _stateCreateDocs
 
+    private val _stateRealtimeResult by lazy { MutableLiveData<RealtimeDatabaseResult<Boolean>>() }
+    val stateRealtimeResult: LiveData<RealtimeDatabaseResult<Boolean>> get()= _stateRealtimeResult
+
     fun getDocs(): LiveData<List<Docs>> {
-        val userId = preferencesUserLoginUseCase.getUserId(
-            SharedPreferencesIdentifiers.USER_ID.text
-        )
+        val userId = preferencesUserLoginUseCase.getUserUid()
         return docsRoomDatabaseUseCase.getDocs(userId)
     }
 
@@ -35,9 +40,7 @@ class DocsViewModel(
 
     fun createDocs(title: String, subTitle: String, doc: String) {
         if (title.isNotEmpty() || subTitle.isNotEmpty() || doc.isNotEmpty()) {
-            val userId = preferencesUserLoginUseCase.getUserId(
-                SharedPreferencesIdentifiers.USER_ID.text
-            )
+            val userId = preferencesUserLoginUseCase.getUserUid()
             docsRoomDatabaseUseCase.insertDocs(
                 factoryDocs(title, subTitle, doc, userId, null)
             )
@@ -48,9 +51,7 @@ class DocsViewModel(
     }
 
     fun updateDocs(title: String, subTitle: String, doc: String, id: Int) {
-        val userId = preferencesUserLoginUseCase.getUserId(
-            SharedPreferencesIdentifiers.USER_ID.text
-        )
+        val userId = preferencesUserLoginUseCase.getUserUid()
         docsRoomDatabaseUseCase.updateDocs(factoryDocs(title, subTitle, doc, userId, id))
     }
 
@@ -58,8 +59,11 @@ class DocsViewModel(
         //            storageNotesUseCase.formatToTXT(listNotes)
     }
 
-    fun saveRealDatabase(listNotes: List<Docs>) {
-        //           realDatabaseUseCase.saveNotesDB(listNotes, {_stateSaveNote.value = it } )
+    fun saveRealDatabase(listDocs: List<Docs>) {
+        viewModelScope.launch {
+            val userId = preferencesUserLoginUseCase.getUserUid()
+            realtimeDatabaseUseCase.saveDocsRealtime(listDocs,userId, {_stateRealtimeResult.value = it } )
+        }
     }
 
 }

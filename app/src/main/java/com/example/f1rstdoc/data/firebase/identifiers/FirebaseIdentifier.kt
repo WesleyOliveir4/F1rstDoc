@@ -8,3 +8,7 @@ enum class FirebaseAuthIdentifier(val text: String) {
     ERROR_EMAIL_USED("Já existe um cadastro com este e-mail"),
     ERROR_MIN_SIX_CHAR("A senha deve conter no minimo 6 caracteres"),
 }
+
+enum class RealtimeIdentifier(val text: String) {
+    DOCS("Docs"),
+}
