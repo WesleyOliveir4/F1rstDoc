@@ -5,11 +5,11 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.f1rstdoc.presentation.docs.adapter.DocsAdapter
 import com.example.f1rstdoc.R
 import com.example.f1rstdoc.databinding.FragmentHomeBinding
 import com.example.f1rstdoc.domain.docs.model.Docs
-import com.example.f1rstdoc.presentation.docs.state.SaveDocsState
+import com.example.f1rstdoc.domain.firebase.model.RealtimeDatabaseResult
+import com.example.f1rstdoc.presentation.docs.adapter.DocsAdapter
 import com.example.f1rstdoc.presentation.docs.viewmodel.DocsViewModel
 import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -93,18 +93,16 @@ class HomeFragment : Fragment() {
                     bottomSheetItem.yesBtn?.setOnClickListener {
 
                         docsViewModel.saveRealDatabase(docsList)
-                        docsViewModel.stateSaveDocs.observe(viewLifecycleOwner) { stateSaveDocs ->
+                        docsViewModel.stateRealtimeResult.observe(viewLifecycleOwner) { stateSaveDocs ->
                             when (stateSaveDocs) {
-                                is SaveDocsState.Loading -> {
 
-                                }
-                                is SaveDocsState.Success -> {
+                                is RealtimeDatabaseResult.Success -> {
                                     MessageBuilderUtils(requireActivity()).MessageShowTimer(
                                         getString(R.string.save_docs_firebase_success),
                                         1500
                                     )
                                 }
-                                is SaveDocsState.Failure -> {
+                                is RealtimeDatabaseResult.Failure -> {
                                     MessageBuilderUtils(requireActivity()).MessageShow(getString(R.string.save_docs_firebase_failure))
                                 }
 

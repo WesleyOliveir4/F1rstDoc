@@ -8,7 +8,7 @@ interface FirebaseAuthUseCase {
     suspend fun singIn(
         email: String,
         senha: String,
-        result: (FirebaseAuthResult<Boolean>) -> Unit
+        result: (FirebaseAuthResult<String>) -> Unit
     )
 
     suspend fun createUser(
