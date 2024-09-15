@@ -55,8 +55,8 @@ class DocsViewModel(
         docsRoomDatabaseUseCase.updateDocs(factoryDocs(title, subTitle, doc, userId, id))
     }
 
-    fun writeToFile(listNotes: List<Docs>) {
-        //            storageNotesUseCase.formatToTXT(listNotes)
+    fun writeToFile(listDocs: List<Docs>) {
+        //            storageDocsUseCase.formatToTXT(listNotes)
     }
 
     fun saveRealDatabase(listDocs: List<Docs>) {
