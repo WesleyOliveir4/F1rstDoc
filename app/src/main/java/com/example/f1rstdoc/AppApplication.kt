@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.f1rstdoc.di.docs.docsViewModelModule
 import com.example.f1rstdoc.di.docs.roomDatabaseModule
 import com.example.f1rstdoc.di.firebase.firebaseModule
+import com.example.f1rstdoc.di.internalStorage.internalStorageModule
 import com.example.f1rstdoc.di.login.loginViewModelModule
 import com.example.f1rstdoc.di.register.registerViewModelModule
 import com.example.f1rstdoc.di.sharedpreferences.sharedPreferencesModule
@@ -25,7 +26,8 @@ class AppApplication : Application() {
                 loginViewModelModule,
                 roomDatabaseModule,
                 docsViewModelModule,
-                sharedPreferencesModule
+                sharedPreferencesModule,
+                internalStorageModule
             )
         }
     }

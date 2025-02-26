@@ -8,6 +8,7 @@ import com.example.f1rstdoc.domain.docs.model.Docs
 import com.example.f1rstdoc.domain.docs.usecase.DocsRoomDatabaseUseCase
 import com.example.f1rstdoc.domain.firebase.model.RealtimeDatabaseResult
 import com.example.f1rstdoc.domain.firebase.usecase.RealtimeDatabaseUseCase
+import com.example.f1rstdoc.domain.internalStorage.usecase.InternalStorageUseCase
 import com.example.f1rstdoc.domain.sharedpreferences.usecase.PreferencesUserLoginUseCase
 import com.example.f1rstdoc.presentation.docs.state.CreateDocsState
 import com.example.f1rstdoc.presentation.docs.state.SaveDocsState
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 class DocsViewModel(
     private val docsRoomDatabaseUseCase: DocsRoomDatabaseUseCase,
     private val preferencesUserLoginUseCase: PreferencesUserLoginUseCase,
-    private val realtimeDatabaseUseCase: RealtimeDatabaseUseCase
+    private val realtimeDatabaseUseCase: RealtimeDatabaseUseCase,
+    private val internalStorageUseCase: InternalStorageUseCase
 ) : ViewModel() {
 
     private val _stateSaveDocs by lazy { MutableLiveData<SaveDocsState<String>>() }
@@ -55,8 +57,8 @@ class DocsViewModel(
         docsRoomDatabaseUseCase.updateDocs(factoryDocs(title, subTitle, doc, userId, id))
     }
 
-    fun writeToFile(listNotes: List<Docs>) {
-        //            storageNotesUseCase.formatToTXT(listNotes)
+    fun writeToFile(listDocs: List<Docs>) {
+        internalStorageUseCase.exportToPDF(listDocs)
     }
 
     fun saveRealDatabase(listDocs: List<Docs>) {
