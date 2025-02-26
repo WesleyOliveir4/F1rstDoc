@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.f1rstdoc.data.room.dao.DocsDao
 import com.example.f1rstdoc.domain.docs.model.Docs
 
-@Database(entities = [Docs::class], version = 1, exportSchema = false)
+@Database(entities = [Docs::class], version = 2, exportSchema = false)
 abstract class DocsDatabase : RoomDatabase() {
     abstract fun myDocsDao(): DocsDao
 
@@ -22,7 +22,10 @@ abstract class DocsDatabase : RoomDatabase() {
             }
             synchronized(this){
                 val roomDatabaseInstance =
-                    Room.databaseBuilder(context, DocsDatabase::class.java,"Docs").allowMainThreadQueries().build()
+                    Room.databaseBuilder(context, DocsDatabase::class.java,"Docs")
+                        .fallbackToDestructiveMigration()
+                        .allowMainThreadQueries()
+                        .build()
                 INSTANCE = roomDatabaseInstance
                 return return roomDatabaseInstance
             }

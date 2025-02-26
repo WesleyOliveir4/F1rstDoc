@@ -129,4 +129,8 @@ class HomeFragment : Fragment() {
         binding.rcvAllDocs.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rcvAllDocs.adapter = DocsAdapter(listDocs)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 }
