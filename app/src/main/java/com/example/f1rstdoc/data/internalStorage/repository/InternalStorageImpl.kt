@@ -24,6 +24,10 @@ class InternalStorageImpl(): InternalStorageUseCase {
             val filePath = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)}/f1rst_doc.pdf"
             val file = File(filePath)
 
+            if (file.exists()) {
+                file.delete()
+            }
+
             val writer = PdfWriter(file)
             val pdfDoc = PdfDocument(writer)
             val document = Document(pdfDoc)
@@ -48,6 +52,14 @@ class InternalStorageImpl(): InternalStorageUseCase {
                     .setFontSize(20f)
                     .setBold()
                 )
+
+                document.add(Paragraph(docs.date))
+
+                document.add(Paragraph(
+                    """
+                        ${docs.subTitle}
+                        """
+                ).setFontSize(16f))
 
                 document.add(Paragraph(
                     """
