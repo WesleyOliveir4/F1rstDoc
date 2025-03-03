@@ -11,9 +11,10 @@
         android:layout_margin="10dp"
         android:background="#ABABAB"/>
     <TextView
+        android:id="@+id/dialog_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Você deseja deletar\n este documento?"
+        android:hint="Você deseja deletar\n este documento?"
         android:gravity="center"
         android:fontFamily="sans-serif-condensed"
         android:textSize="18sp"
@@ -30,7 +31,7 @@
         android:padding="10dp"
         android:background="@drawable/yes_btn"
         android:fontFamily="sans-serif-black"
-        android:text="Sim" />
+        android:text="@string/dialog_yes_buttom" />
 
     <TextView
         android:id="@+id/dialog_no"
@@ -43,7 +44,7 @@
         android:layout_marginBottom="20dp"
         android:padding="10dp"
         android:fontFamily="sans-serif-black"
-        android:text="Não"/>
+        android:text="@string/dialog_no_buttom"/>
 
 
 </LinearLayout>

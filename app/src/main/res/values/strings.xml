@@ -38,6 +38,13 @@
     <string name="create_account">Conta Registrada</string>
     <string name="error_generic_login">email ou senha invalidos</string>
 
+    <string name="message_cloud_builder">Você deseja exportar\n os dados do F1rstDoc \nna cloud?</string>
+    <string name="message_export_builder">Você deseja exportar\n os dados do F1rstDoc\nno dispositivo?</string>
+    <string name="message_delete_builder">Você deseja deletar\n este documento?</string>
+    <string name="message_logout_builder">Você deseja sair e deslogar desta sessão?</string>
+    <string name="dialog_yes_buttom">Sim</string>
+    <string name="dialog_no_buttom">Não</string>
+
    //Create Doc
     <string name="error_save_doc_is_empty">Falha ao salvar, documento vazio</string>
 
