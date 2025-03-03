@@ -1,5 +1,6 @@
-package com.example.f1rstdoc.presentation.docs.home
+package com.example.f1rstdoc.presentation.docs.view.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -11,14 +12,19 @@ import com.example.f1rstdoc.domain.docs.model.Docs
 import com.example.f1rstdoc.domain.firebase.model.RealtimeDatabaseResult
 import com.example.f1rstdoc.presentation.docs.adapter.DocsAdapter
 import com.example.f1rstdoc.presentation.docs.viewmodel.DocsViewModel
+import com.example.f1rstdoc.presentation.login.view.LoginActivity
 import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class HomeFragment : Fragment() {
 
-    private val EXPORTAR="Exportar"
-    private val CLOUDFIREBASE="CloudFirebase"
+    companion object{
+        private const val EXPORTAR="Exportar"
+        private const val CLOUDFIREBASE="CloudFirebase"
+        private const val LOGOUT="Logout"
+    }
+
 
     private lateinit var binding: FragmentHomeBinding
     private val docsViewModel: DocsViewModel by viewModel()
@@ -120,6 +126,29 @@ class HomeFragment : Fragment() {
                 }
                 bottomSheetItem.bottomSheet.show()
             }
+            LOGOUT -> {
+                val bottomSheetItem =
+                    MessageBuilderUtils(requireContext()).bottomSheetItem(R.layout.dialog_cloud)
+
+                    bottomSheetItem.yesBtn?.setOnClickListener {
+                        docsViewModel.logoutUser()
+                        bottomSheetItem.bottomSheet.dismiss()
+
+                        val intent = Intent(requireContext(), LoginActivity::class.java)
+                        startActivity(intent)
+
+                        requireActivity().finish()
+                    }
+
+                    bottomSheetItem.noBtn?.setOnClickListener {
+                        bottomSheetItem.bottomSheet.dismiss()
+                    }
+
+                bottomSheetItem.bottomSheet.show()
+
+            }
+
+
         }
 
         return super.onOptionsItemSelected(item)

@@ -17,7 +17,7 @@
         android:theme="@style/Theme.F1rstDoc"
         tools:targetApi="31">
             <activity
-                android:name=".presentation.splash.SplashActivity"
+                android:name=".presentation.splash.view.SplashActivity"
                 android:theme="@style/Theme.full"
                 android:exported="true">
                 <intent-filter>
@@ -28,7 +28,7 @@
             </activity>
 
         <activity
-            android:name=".presentation.login.LoginActivity"
+            android:name=".presentation.login.view.LoginActivity"
             android:theme="@style/Theme.full"
             android:exported="false">
             <meta-data
@@ -38,17 +38,17 @@
 
 
         <activity
-            android:name=".presentation.register.RegisterActivity"
+            android:name=".presentation.register.view.RegisterActivity"
             android:theme="@style/Theme.fullNoTitle"
             android:exported="false"
-            android:parentActivityName=".presentation.login.LoginActivity">
+            android:parentActivityName=".presentation.login.view.LoginActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
 
         <activity
-            android:name=".presentation.docs.HomeActivity"
+            android:name=".presentation.docs.view.HomeActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

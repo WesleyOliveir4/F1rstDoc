@@ -10,8 +10,8 @@ import com.example.f1rstdoc.domain.firebase.model.RealtimeDatabaseResult
 import com.example.f1rstdoc.domain.firebase.usecase.RealtimeDatabaseUseCase
 import com.example.f1rstdoc.domain.internalStorage.usecase.InternalStorageUseCase
 import com.example.f1rstdoc.domain.sharedpreferences.usecase.PreferencesUserLoginUseCase
-import com.example.f1rstdoc.presentation.docs.state.CreateDocsState
-import com.example.f1rstdoc.presentation.docs.state.SaveDocsState
+import com.example.f1rstdoc.presentation.docs.view.state.CreateDocsState
+import com.example.f1rstdoc.presentation.docs.view.state.SaveDocsState
 import com.example.f1rstdoc.presentation.utils.factoryDocs
 import kotlinx.coroutines.launch
 
@@ -65,6 +65,14 @@ class DocsViewModel(
         viewModelScope.launch {
             val userId = preferencesUserLoginUseCase.getUserUid()
             realtimeDatabaseUseCase.saveDocsRealtime(listDocs,userId, {_stateRealtimeResult.value = it } )
+        }
+    }
+
+    fun logoutUser(){
+        viewModelScope.launch {
+            val email = preferencesUserLoginUseCase.getUserEmail()
+            val uid = preferencesUserLoginUseCase.getUserUid()
+            preferencesUserLoginUseCase.saveUserPref(false,email,uid)
         }
     }
 

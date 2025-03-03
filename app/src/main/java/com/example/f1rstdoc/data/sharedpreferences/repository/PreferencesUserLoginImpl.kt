@@ -11,11 +11,22 @@ class PreferencesUserLoginImpl(
     override fun saveUserPref(userLoginSession: Boolean, email: String, userUid: String) {
         val sharedPreferences = context.getSharedPreferences(SharedPreferencesIdentifiers.USER_PREFS.text, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putBoolean(SharedPreferencesIdentifiers.IS_LOGGED.text, true)
+        editor.putBoolean(SharedPreferencesIdentifiers.IS_LOGGED.text, userLoginSession)
         editor.putString(SharedPreferencesIdentifiers.USER_UID.text, userUid)
         editor.putString(SharedPreferencesIdentifiers.USER_EMAIL.text, email)
         editor.apply()
     }
+
+    override fun getUserSessionStatus(): Boolean {
+        val sharedPreferences = context.getSharedPreferences(
+            SharedPreferencesIdentifiers.USER_PREFS.text, Context.MODE_PRIVATE
+        )
+        return sharedPreferences.getBoolean(
+            SharedPreferencesIdentifiers.IS_LOGGED.text,
+            false
+        )
+    }
+
 
     override fun getUserUid(): String {
         val sharedPreferences = context.getSharedPreferences(

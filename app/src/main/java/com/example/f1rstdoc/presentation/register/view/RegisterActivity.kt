@@ -1,4 +1,4 @@
-package com.example.f1rstdoc.presentation.register
+package com.example.f1rstdoc.presentation.register.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
