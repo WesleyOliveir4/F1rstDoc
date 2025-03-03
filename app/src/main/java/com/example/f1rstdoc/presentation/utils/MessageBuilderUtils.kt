@@ -7,7 +7,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.*
 
 
-class MessageBuilderUtils(
+class MessageBuilderUtils (
     private val context: Context,
 ) {
 
@@ -21,13 +21,19 @@ class MessageBuilderUtils(
         bottomSheet.show()
     }
 
-    fun bottomSheetItem(layoutBottomSheet: Int): BottomSheet {
+
+
+    fun bottomSheetItem(layoutBottomSheet: Int, messageText: String): BottomSheet {
 
         val bottomSheet: BottomSheetDialog =
             BottomSheetDialog(context, R.style.BottomSheetStyle)
         bottomSheet.setContentView(layoutBottomSheet)
+
+        val textviewMessage = bottomSheet.findViewById<TextView>(R.id.dialog_message)
+        textviewMessage?.text = messageText
         val textviewYes = bottomSheet.findViewById<TextView>(R.id.dialog_yes)
         val textviewNo = bottomSheet.findViewById<TextView>(R.id.dialog_no)
+
         bottomSheet.show()
         return BottomSheet(
             yesBtn = textviewYes,

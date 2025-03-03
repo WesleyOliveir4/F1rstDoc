@@ -65,7 +65,10 @@ class HomeFragment : Fragment() {
         when(item.title){
             EXPORTAR -> {
                 val bottomSheetItem =
-                    MessageBuilderUtils(requireContext()).bottomSheetItem(R.layout.dialog_export)
+                    MessageBuilderUtils(requireContext()).bottomSheetItem(
+                        R.layout.dialog_bottom_sheet,
+                        messageText = getString(R.string.message_export_builder)
+                    )
 
                 docsViewModel.getDocs().observe(viewLifecycleOwner) { docsList ->
 
@@ -92,7 +95,10 @@ class HomeFragment : Fragment() {
             }
             CLOUDFIREBASE -> {
                 val bottomSheetItem =
-                    MessageBuilderUtils(requireContext()).bottomSheetItem(R.layout.dialog_cloud)
+                    MessageBuilderUtils(requireContext()).bottomSheetItem(
+                        R.layout.dialog_bottom_sheet,
+                        messageText = getString(R.string.message_cloud_builder)
+                    )
 
                 docsViewModel.getDocs().observe(viewLifecycleOwner) { docsList ->
 
@@ -128,7 +134,10 @@ class HomeFragment : Fragment() {
             }
             LOGOUT -> {
                 val bottomSheetItem =
-                    MessageBuilderUtils(requireContext()).bottomSheetItem(R.layout.dialog_cloud)
+                    MessageBuilderUtils(requireContext()).bottomSheetItem(
+                        R.layout.dialog_bottom_sheet,
+                        messageText = getString(R.string.message_logout_builder)
+                    )
 
                     bottomSheetItem.yesBtn?.setOnClickListener {
                         docsViewModel.logoutUser()

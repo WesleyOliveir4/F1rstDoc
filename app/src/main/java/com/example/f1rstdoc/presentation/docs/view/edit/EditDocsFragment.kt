@@ -71,7 +71,10 @@ class EditDocsFragment: Fragment() {
         when(item.title){
             DELETE -> {
                 val bottomSheetItem =
-                    MessageBuilderUtils(requireContext()).bottomSheetItem(R.layout.dialog_delete)
+                    MessageBuilderUtils(requireContext()).bottomSheetItem(
+                        R.layout.dialog_bottom_sheet,
+                        messageText = getString(R.string.message_delete_builder)
+                    )
 
                 bottomSheetItem.yesBtn?.setOnClickListener{
                     try{
