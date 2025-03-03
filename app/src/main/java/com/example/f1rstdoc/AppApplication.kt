@@ -8,6 +8,7 @@ import com.example.f1rstdoc.di.internalStorage.internalStorageModule
 import com.example.f1rstdoc.di.login.loginViewModelModule
 import com.example.f1rstdoc.di.register.registerViewModelModule
 import com.example.f1rstdoc.di.sharedpreferences.sharedPreferencesModule
+import com.example.f1rstdoc.di.splash.splashModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -27,7 +28,8 @@ class AppApplication : Application() {
                 roomDatabaseModule,
                 docsViewModelModule,
                 sharedPreferencesModule,
-                internalStorageModule
+                internalStorageModule,
+                splashModule
             )
         }
     }

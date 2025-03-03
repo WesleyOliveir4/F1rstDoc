@@ -1,4 +1,4 @@
-package com.example.f1rstdoc.presentation.docs.edit
+package com.example.f1rstdoc.presentation.docs.view.edit
 
 import android.os.Bundle
 import android.view.*

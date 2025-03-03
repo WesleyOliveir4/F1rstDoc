@@ -6,7 +6,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.f1rstdoc.databinding.ItemDocsBinding
 import com.example.f1rstdoc.domain.docs.model.Docs
-import com.example.f1rstdoc.presentation.docs.home.HomeFragmentDirections
+import com.example.f1rstdoc.presentation.docs.view.home.HomeFragmentDirections
 
 class DocsAdapter(private val docsList: List<Docs>) :
     RecyclerView.Adapter<DocsAdapter.DocsViewHolder>() {
@@ -30,10 +30,8 @@ class DocsAdapter(private val docsList: List<Docs>) :
         holder.binding.docData.text = data.date
 
         holder.binding.root.setOnClickListener{
-            val action=HomeFragmentDirections.actionHomeFragmentToEditDocsFragment(data)
+            val action= HomeFragmentDirections.actionHomeFragmentToEditDocsFragment(data)
             Navigation.findNavController(it).navigate(action)
-
-
         }
 
     }

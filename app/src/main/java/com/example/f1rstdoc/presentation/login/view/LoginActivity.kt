@@ -1,4 +1,4 @@
-package com.example.f1rstdoc.presentation.login
+package com.example.f1rstdoc.presentation.login.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.f1rstdoc.R
 import com.example.f1rstdoc.databinding.ActivityLoginBinding
 import com.example.f1rstdoc.domain.firebase.model.FirebaseAuthResult
-import com.example.f1rstdoc.presentation.docs.HomeActivity
+import com.example.f1rstdoc.presentation.docs.view.HomeActivity
 import com.example.f1rstdoc.presentation.login.viewmodel.LoginViewModel
-import com.example.f1rstdoc.presentation.register.RegisterActivity
+import com.example.f1rstdoc.presentation.register.view.RegisterActivity
 import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

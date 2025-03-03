@@ -1,4 +1,4 @@
-package com.example.f1rstdoc.presentation.docs
+package com.example.f1rstdoc.presentation.docs.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

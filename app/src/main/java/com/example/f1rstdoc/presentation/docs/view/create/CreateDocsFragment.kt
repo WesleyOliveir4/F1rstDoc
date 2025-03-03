@@ -1,4 +1,4 @@
-package com.example.f1rstdoc.presentation.docs.create
+package com.example.f1rstdoc.presentation.docs.view.create
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.f1rstdoc.R
 import com.example.f1rstdoc.databinding.FragmentCreateDocsBinding
-import com.example.f1rstdoc.presentation.docs.state.CreateDocsState
+import com.example.f1rstdoc.presentation.docs.view.state.CreateDocsState
 import com.example.f1rstdoc.presentation.docs.viewmodel.DocsViewModel
 import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel

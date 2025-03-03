@@ -6,7 +6,7 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.f1rstdoc.presentation.docs.home.HomeFragment"
+        android:name="com.example.f1rstdoc.presentation.docs.view.home.HomeFragment"
         android:label="F1rstDoc"
         tools:layout="@layout/fragment_home" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/createDocsFragment"
-        android:name="com.example.f1rstdoc.presentation.docs.create.CreateDocsFragment"
+        android:name="com.example.f1rstdoc.presentation.docs.view.create.CreateDocsFragment"
         android:label="Add Docs"
         tools:layout="@layout/fragment_create_docs" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/editDocsFragment"
-        android:name="com.example.f1rstdoc.presentation.docs.edit.EditDocsFragment"
+        android:name="com.example.f1rstdoc.presentation.docs.view.edit.EditDocsFragment"
         android:label="Edit Docs"
         tools:layout="@layout/fragment_edit_docs" >
         <action

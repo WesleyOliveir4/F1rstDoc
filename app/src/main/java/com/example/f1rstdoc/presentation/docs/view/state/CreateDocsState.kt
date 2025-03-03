@@ -1,4 +1,4 @@
-package com.example.f1rstdoc.presentation.docs.state
+package com.example.f1rstdoc.presentation.docs.view.state
 
 sealed interface CreateDocsState<out T>{
         object Success: CreateDocsState<Nothing>
