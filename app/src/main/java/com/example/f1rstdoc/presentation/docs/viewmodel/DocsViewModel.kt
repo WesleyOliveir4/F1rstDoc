@@ -58,8 +58,7 @@ class DocsViewModel(
     }
 
     fun writeToFile(listDocs: List<Docs>) {
-        internalStorageUseCase.exportToPDF(listDocs)
-        internalStorageUseCase.exportJsonToFile(listDocs)
+        internalStorageUseCase.exportData(listDocs)
     }
 
     fun saveRealDatabase(listDocs: List<Docs>) {
