@@ -4,6 +4,7 @@ package com.example.f1rstdoc.data.internalStorage.repository
 import android.os.Environment
 import com.example.f1rstdoc.domain.docs.model.Docs
 import com.example.f1rstdoc.domain.internalStorage.usecase.InternalStorageUseCase
+import com.google.gson.GsonBuilder
 import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.kernel.pdf.action.PdfAction
@@ -14,6 +15,8 @@ import com.itextpdf.layout.element.Link
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.properties.TextAlignment
 import java.io.File
+import java.io.FileWriter
+import java.io.IOException
 
 class InternalStorageImpl(): InternalStorageUseCase {
 
@@ -79,6 +82,25 @@ class InternalStorageImpl(): InternalStorageUseCase {
         } catch (e: Exception) {
             e.printStackTrace()
             println("Erro ao criar o PDF: ${e.message}")
+        }
+    }
+
+    override fun exportJsonToFile(listDocs: List<Docs>) {
+
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val jsonString = gson.toJson(listDocs)
+
+        // Define o diretório de salvamento (Downloads)
+        val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val file = File(downloadsDir, "f1rst_doc.json")
+
+        try {
+            FileWriter(file).use { writer ->
+                writer.write(jsonString)
+            }
+            println("Arquivo salvo com sucesso em: ${file.absolutePath}")
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
     }
 

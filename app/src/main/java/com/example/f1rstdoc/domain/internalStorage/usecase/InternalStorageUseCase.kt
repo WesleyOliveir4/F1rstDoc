@@ -5,4 +5,5 @@ import com.example.f1rstdoc.domain.docs.model.Docs
 interface InternalStorageUseCase {
 
     fun exportToPDF(listDocs: List<Docs>)
+    fun exportJsonToFile(listDocs: List<Docs>)
 }

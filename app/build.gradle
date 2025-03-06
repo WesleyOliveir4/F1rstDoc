@@ -94,4 +94,8 @@ dependencies {
 
     //itextpdf
     implementation 'com.itextpdf:itext7-core:7.2.5'
+
+    //Gson
+    implementation 'com.google.code.gson:gson:2.10.1'
+
 }
