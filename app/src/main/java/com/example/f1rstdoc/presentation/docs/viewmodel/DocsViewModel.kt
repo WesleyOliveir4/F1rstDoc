@@ -1,5 +1,6 @@
 package com.example.f1rstdoc.presentation.docs.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -66,6 +67,10 @@ class DocsViewModel(
             val userId = preferencesUserLoginUseCase.getUserUid()
             realtimeDatabaseUseCase.saveDocsRealtime(listDocs,userId, {_stateRealtimeResult.value = it } )
         }
+    }
+
+    fun importDataDocs(selectedUri: Uri) {
+        internalStorageUseCase.selectDataToImport(selectedUri)
     }
 
     fun logoutUser(){

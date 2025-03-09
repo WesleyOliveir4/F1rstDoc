@@ -3,13 +3,16 @@ package com.example.f1rstdoc.data.internalStorage.repository
 
 import android.content.ContentValues
 import android.content.Context
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import com.example.f1rstdoc.domain.docs.model.Docs
 import com.example.f1rstdoc.domain.internalStorage.usecase.InternalStorageUseCase
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.kernel.pdf.action.PdfAction
@@ -50,6 +53,8 @@ class InternalStorageImpl(val context: Context): InternalStorageUseCase {
         exportToPDF(listDocs,myFolder)
         exportToJsonFile(listDocs,myFolder)
     }
+
+
 
 
     private fun exportToPDF(listDocs: List<Docs>,myFolder: File ) {
@@ -181,6 +186,39 @@ class InternalStorageImpl(val context: Context): InternalStorageUseCase {
         }
 
     }
+
+    //// teste
+
+    override fun selectDataToImport(uri: Uri) {
+
+        val listDocsJson = parseJson(readJsonFile(uri))
+        listDocsJson.forEach {
+            println("Docs Results = ${it.title}")
+        }
+    }
+
+    private fun readJsonFile(uri: Uri): String? {
+        return try {
+            context.contentResolver.openInputStream(uri)?.use { inputStream ->
+                inputStream.bufferedReader().use { it.readText() }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    private fun parseJson(jsonString: String?): List<Docs> {
+        return try {
+            val gson = Gson()
+            val type = object : TypeToken<List<Docs>>() {}.type
+            gson.fromJson(jsonString, type)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyList()
+        }
+    }
+
 
 }
 
