@@ -177,37 +177,18 @@ class HomeFragment : Fragment() {
         if (result.resultCode == Activity.RESULT_OK) {
             val uri: Uri? = result.data?.data
             uri?.let { selectedUri ->
-                // Faça algo com o arquivo selecionado, por exemplo, exibir ou ler o conteúdo
                 docsViewModel.importDataDocs(selectedUri)
-//                handleSelectedFile(selectedUri)
             }
         }
     }
     private fun openFilePicker() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
-            type = "*/*" // Pode ser "image/*", "video/*", "application/pdf" etc.
+            type = "*/*" // Ajustar para "application/json" etc.
         }
         filePickerLauncher.launch(intent)
     }
 
-//    fun handleSelectedFile(uri: Uri) {
-//        // Exemplo: Pegando o nome do arquivo
-//        val fileName = getFileNameFromUri(uri)
-//        Log.d("FilePicker", "Arquivo selecionado: $fileName")
-//    }
-//
-//    private fun getFileNameFromUri(uri: Uri): String? {
-//        val contentResolver = requireActivity().contentResolver
-//        val cursor = contentResolver.query(uri, null, null, null, null)
-//        cursor?.use { it ->
-//            if (it.moveToFirst()) {
-//                val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-//                return it.getString(nameIndex)
-//            }
-//        }
-//        return null
-//    }
 
     private fun pushRecyclerView(listDocs: List<Docs>) {
         binding.rcvAllDocs.layoutManager = GridLayoutManager(requireContext(), 2)

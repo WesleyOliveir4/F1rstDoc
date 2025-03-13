@@ -7,5 +7,5 @@ interface InternalStorageUseCase {
 
     fun exportData(listDocs: List<Docs>)
 
-    fun selectDataToImport(uri: Uri)
+    fun selectDataToImport(uri: Uri): List<Docs>
 }

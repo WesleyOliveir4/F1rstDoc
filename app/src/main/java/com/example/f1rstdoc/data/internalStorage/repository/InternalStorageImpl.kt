@@ -11,7 +11,6 @@ import android.util.Log
 import com.example.f1rstdoc.domain.docs.model.Docs
 import com.example.f1rstdoc.domain.internalStorage.usecase.InternalStorageUseCase
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfWriter
@@ -187,14 +186,13 @@ class InternalStorageImpl(val context: Context): InternalStorageUseCase {
 
     }
 
-    //// teste
-
-    override fun selectDataToImport(uri: Uri) {
+    override fun selectDataToImport(uri: Uri): List<Docs> {
 
         val listDocsJson = parseJson(readJsonFile(uri))
         listDocsJson.forEach {
             println("Docs Results = ${it.title}")
         }
+        return listDocsJson
     }
 
     private fun readJsonFile(uri: Uri): String? {
@@ -217,6 +215,7 @@ class InternalStorageImpl(val context: Context): InternalStorageUseCase {
             e.printStackTrace()
             emptyList()
         }
+
     }
 
 

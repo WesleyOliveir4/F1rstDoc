@@ -70,7 +70,12 @@ class DocsViewModel(
     }
 
     fun importDataDocs(selectedUri: Uri) {
-        internalStorageUseCase.selectDataToImport(selectedUri)
+        internalStorageUseCase.selectDataToImport(selectedUri).forEach { Docs->
+            val userId = preferencesUserLoginUseCase.getUserUid()
+            docsRoomDatabaseUseCase.insertDocs(
+                factoryDocs(Docs.title, Docs.subTitle, Docs.doc, userId, null)
+            )
+        }
     }
 
     fun logoutUser(){
