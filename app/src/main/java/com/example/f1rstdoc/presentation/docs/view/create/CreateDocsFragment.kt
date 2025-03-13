@@ -52,6 +52,7 @@ class CreateDocsFragment : Fragment() {
                         MessageBuilderUtils(requireActivity()).MessageShow(getString(R.string.error_save_doc_is_empty))
                     }
 
+                    else -> {}
                 }
 
             }

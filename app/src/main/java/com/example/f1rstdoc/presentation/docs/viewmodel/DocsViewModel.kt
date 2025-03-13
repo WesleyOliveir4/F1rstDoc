@@ -1,5 +1,6 @@
 package com.example.f1rstdoc.presentation.docs.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -58,14 +59,22 @@ class DocsViewModel(
     }
 
     fun writeToFile(listDocs: List<Docs>) {
-        internalStorageUseCase.exportToPDF(listDocs)
-        internalStorageUseCase.exportJsonToFile(listDocs)
+        internalStorageUseCase.exportData(listDocs)
     }
 
     fun saveRealDatabase(listDocs: List<Docs>) {
         viewModelScope.launch {
             val userId = preferencesUserLoginUseCase.getUserUid()
             realtimeDatabaseUseCase.saveDocsRealtime(listDocs,userId, {_stateRealtimeResult.value = it } )
+        }
+    }
+
+    fun importDataDocs(selectedUri: Uri) {
+        internalStorageUseCase.selectDataToImport(selectedUri).forEach { Docs->
+            val userId = preferencesUserLoginUseCase.getUserUid()
+            docsRoomDatabaseUseCase.insertDocs(
+                factoryDocs(Docs.title, Docs.subTitle, Docs.doc, userId, null)
+            )
         }
     }
 
