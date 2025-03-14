@@ -5,7 +5,7 @@ import com.example.f1rstdoc.domain.docs.model.Docs
 
 interface InternalStorageUseCase {
 
-    fun exportData(listDocs: List<Docs>)
+    suspend fun exportData(listDocs: List<Docs>)
 
-    fun selectDataToImport(uri: Uri): List<Docs>
+    suspend fun selectDataToImport(uri: Uri): Result<List<Docs>>
 }
