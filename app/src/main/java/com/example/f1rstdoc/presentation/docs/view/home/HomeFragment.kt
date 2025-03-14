@@ -16,6 +16,7 @@ import com.example.f1rstdoc.databinding.FragmentHomeBinding
 import com.example.f1rstdoc.domain.docs.model.Docs
 import com.example.f1rstdoc.domain.firebase.model.RealtimeDatabaseResult
 import com.example.f1rstdoc.presentation.docs.adapter.DocsAdapter
+import com.example.f1rstdoc.presentation.docs.view.state.ImportDocsState
 import com.example.f1rstdoc.presentation.docs.viewmodel.DocsViewModel
 import com.example.f1rstdoc.presentation.login.view.LoginActivity
 import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
@@ -164,6 +165,23 @@ class HomeFragment : Fragment() {
             }
             IMPORTAR ->{
                 openFilePicker()
+
+                docsViewModel.stateImportDocs.observe(viewLifecycleOwner){ state ->
+                    when(state){
+                        ImportDocsState.Success ->{
+                            MessageBuilderUtils(requireContext()).MessageShowTimer(
+                                getString(R.string.import_docs_storage_success),
+                                1500
+                            )
+                        }
+                        ImportDocsState.Failure -> {
+                            MessageBuilderUtils(requireContext()).MessageShowTimer(
+                                getString(R.string.import_docs_storage_failure),
+                                1500
+                            )
+                        }
+                    }
+                }
             }
 
 

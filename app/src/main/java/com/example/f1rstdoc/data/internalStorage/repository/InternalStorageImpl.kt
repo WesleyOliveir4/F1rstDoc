@@ -41,7 +41,7 @@ class InternalStorageImpl(val context: Context): InternalStorageUseCase {
     }
 
 
-    override fun exportData(listDocs: List<Docs>){
+    override suspend fun exportData(listDocs: List<Docs>){
         val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         val myFolder = File(downloadsDir, FOLDER)
 
@@ -186,13 +186,16 @@ class InternalStorageImpl(val context: Context): InternalStorageUseCase {
 
     }
 
-    override fun selectDataToImport(uri: Uri): List<Docs> {
+    override suspend fun selectDataToImport(uri: Uri): Result<List<Docs>> {
 
-        val listDocsJson = parseJson(readJsonFile(uri))
-        listDocsJson.forEach {
-            println("Docs Results = ${it.title}")
+        parseJson(readJsonFile(uri)).let { docsList ->
+            if (docsList.isNotEmpty()){
+                return Result.success(docsList)
+            }else{
+                return Result.failure(Exception("Não foi possivel importar a lista de Docs"))
+            }
         }
-        return listDocsJson
+
     }
 
     private fun readJsonFile(uri: Uri): String? {

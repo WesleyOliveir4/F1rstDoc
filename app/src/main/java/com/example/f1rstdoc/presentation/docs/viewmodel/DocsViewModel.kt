@@ -12,6 +12,7 @@ import com.example.f1rstdoc.domain.firebase.usecase.RealtimeDatabaseUseCase
 import com.example.f1rstdoc.domain.internalStorage.usecase.InternalStorageUseCase
 import com.example.f1rstdoc.domain.sharedpreferences.usecase.PreferencesUserLoginUseCase
 import com.example.f1rstdoc.presentation.docs.view.state.CreateDocsState
+import com.example.f1rstdoc.presentation.docs.view.state.ImportDocsState
 import com.example.f1rstdoc.presentation.docs.view.state.SaveDocsState
 import com.example.f1rstdoc.presentation.utils.factoryDocs
 import kotlinx.coroutines.launch
@@ -28,6 +29,9 @@ class DocsViewModel(
 
     private val _stateCreateDocs by lazy { MutableLiveData<CreateDocsState<String>>() }
     val stateCreateDocs: LiveData<CreateDocsState<String>> get() = _stateCreateDocs
+
+    private val _stateImportDocs by lazy { MutableLiveData<ImportDocsState>() }
+    val stateImportDocs: LiveData<ImportDocsState> get() = _stateImportDocs
 
     private val _stateRealtimeResult by lazy { MutableLiveData<RealtimeDatabaseResult<Boolean>>() }
     val stateRealtimeResult: LiveData<RealtimeDatabaseResult<Boolean>> get()= _stateRealtimeResult
@@ -59,7 +63,9 @@ class DocsViewModel(
     }
 
     fun writeToFile(listDocs: List<Docs>) {
-        internalStorageUseCase.exportData(listDocs)
+        viewModelScope.launch {
+            internalStorageUseCase.exportData(listDocs)
+        }
     }
 
     fun saveRealDatabase(listDocs: List<Docs>) {
@@ -70,12 +76,25 @@ class DocsViewModel(
     }
 
     fun importDataDocs(selectedUri: Uri) {
-        internalStorageUseCase.selectDataToImport(selectedUri).forEach { Docs->
-            val userId = preferencesUserLoginUseCase.getUserUid()
-            docsRoomDatabaseUseCase.insertDocs(
-                factoryDocs(Docs.title, Docs.subTitle, Docs.doc, userId, null)
+
+        viewModelScope.launch {
+            internalStorageUseCase.selectDataToImport(selectedUri).fold(
+                onSuccess = {result->
+                    result.forEach { docs ->
+                        val userId = preferencesUserLoginUseCase.getUserUid()
+                        docsRoomDatabaseUseCase.insertDocs(
+                            factoryDocs(docs.title, docs.subTitle, docs.doc, userId, null)
+                        )
+                    }
+                    _stateImportDocs.postValue(ImportDocsState.Success)
+
+                },
+                onFailure = {
+                    _stateImportDocs.postValue(ImportDocsState.Failure)
+                }
             )
         }
+
     }
 
     fun logoutUser(){
