@@ -24,8 +24,6 @@ class DocsViewModel(
     private val internalStorageUseCase: InternalStorageUseCase
 ) : ViewModel() {
 
-    private val _stateSaveDocs by lazy { MutableLiveData<SaveDocsState<String>>() }
-    val stateSaveDocs: LiveData<SaveDocsState<String>> get() = _stateSaveDocs
 
     private val _stateCreateDocs by lazy { MutableLiveData<CreateDocsState<String>>() }
     val stateCreateDocs: LiveData<CreateDocsState<String>> get() = _stateCreateDocs
@@ -71,7 +69,9 @@ class DocsViewModel(
     fun saveRealDatabase(listDocs: List<Docs>) {
         viewModelScope.launch {
             val userId = preferencesUserLoginUseCase.getUserUid()
-            realtimeDatabaseUseCase.saveDocsRealtime(listDocs,userId, {_stateRealtimeResult.value = it } )
+            realtimeDatabaseUseCase.saveDocsRealtime(listDocs,userId) {
+                _stateRealtimeResult.value = it
+            }
         }
     }
 
