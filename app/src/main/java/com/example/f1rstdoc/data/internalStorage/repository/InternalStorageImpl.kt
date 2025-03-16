@@ -35,6 +35,8 @@ class InternalStorageImpl(val context: Context): InternalStorageUseCase {
         private const val APPLICATION_PDF = "application/pdf"
         private const val APPLICATION_JSON = "application/json"
 
+        private const val MSG_ERROR_IMPORT_DOC = "Não foi possivel importar a lista de Docs"
+        private const val MSG_ERROR_EXPORT_DOC = "Falha ao criar o arquivo PDF"
 
         private const val SUMARY = "Sumário"
 
@@ -75,7 +77,7 @@ class InternalStorageImpl(val context: Context): InternalStorageUseCase {
                 if (uri != null) {
                     outputStream = resolver.openOutputStream(uri)
                 } else {
-                    throw IOException("Falha ao criar o arquivo PDF")
+                    throw IOException(MSG_ERROR_EXPORT_DOC)
                 }
 
             } else {
@@ -192,7 +194,7 @@ class InternalStorageImpl(val context: Context): InternalStorageUseCase {
             if (docsList.isNotEmpty()){
                 return Result.success(docsList)
             }else{
-                return Result.failure(Exception("Não foi possivel importar a lista de Docs"))
+                return Result.failure(Exception(MSG_ERROR_IMPORT_DOC))
             }
         }
 

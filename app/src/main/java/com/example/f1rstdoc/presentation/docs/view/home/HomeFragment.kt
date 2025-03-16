@@ -202,7 +202,7 @@ class HomeFragment : Fragment() {
     private fun openFilePicker() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
-            type = "*/*" // Ajustar para "application/json" etc.
+            type = "application/json"
         }
         filePickerLauncher.launch(intent)
     }
