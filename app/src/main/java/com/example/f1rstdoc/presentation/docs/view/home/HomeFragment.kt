@@ -4,10 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.OpenableColumns
-import android.util.Log
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,6 +29,7 @@ class HomeFragment : Fragment() {
         private const val CLOUDFIREBASE="CloudFirebase"
         private const val LOGOUT="Logout"
         private const val IMPORTAR="Importar Docs"
+        private const val SEARCH="SearchDocs"
     }
 
 
@@ -71,123 +71,168 @@ class HomeFragment : Fragment() {
 
         when(item.title){
             EXPORTAR -> {
-                val bottomSheetItem =
-                    MessageBuilderUtils(requireContext()).bottomSheetItem(
-                        R.layout.dialog_bottom_sheet,
-                        messageText = getString(R.string.message_export_builder)
-                    )
-
-                docsViewModel.getDocs().observe(viewLifecycleOwner) { docsList ->
-
-                    bottomSheetItem.yesBtn?.setOnClickListener {
-
-                        try {
-                            docsViewModel.writeToFile(docsList)
-                            MessageBuilderUtils(requireContext()).MessageShowTimer(
-                                getString(R.string.save_docs_storage_success),
-                                1500
-                            )
-                        } catch (e: Exception) {
-                            MessageBuilderUtils(requireContext()).MessageShow(getString(R.string.save_docs_storage_failure))
-                        }
-                        bottomSheetItem.bottomSheet.dismiss()
-                    }
-                }
-
-                bottomSheetItem.noBtn?.setOnClickListener {
-                    bottomSheetItem.bottomSheet.dismiss()
-                }
-
-                bottomSheetItem.bottomSheet.show()
+                exportMenuOption()
             }
             CLOUDFIREBASE -> {
-                val bottomSheetItem =
-                    MessageBuilderUtils(requireContext()).bottomSheetItem(
-                        R.layout.dialog_bottom_sheet,
-                        messageText = getString(R.string.message_cloud_builder)
-                    )
-
-                docsViewModel.getDocs().observe(viewLifecycleOwner) { docsList ->
-
-                    bottomSheetItem.yesBtn?.setOnClickListener {
-
-                        docsViewModel.saveRealDatabase(docsList)
-                        docsViewModel.stateRealtimeResult.observe(viewLifecycleOwner) { stateSaveDocs ->
-                            when (stateSaveDocs) {
-
-                                is RealtimeDatabaseResult.Success -> {
-                                    MessageBuilderUtils(requireActivity()).MessageShowTimer(
-                                        getString(R.string.save_docs_firebase_success),
-                                        1500
-                                    )
-                                }
-                                is RealtimeDatabaseResult.Failure -> {
-                                    MessageBuilderUtils(requireActivity()).MessageShow(getString(R.string.save_docs_firebase_failure))
-                                }
-
-                            }
-                        }
-
-                        bottomSheetItem.bottomSheet.dismiss()
-
-                    }
-
-                    bottomSheetItem.noBtn?.setOnClickListener {
-                        bottomSheetItem.bottomSheet.dismiss()
-                    }
-
-                }
-                bottomSheetItem.bottomSheet.show()
+                exportCloudMenuOption()
             }
             LOGOUT -> {
-                val bottomSheetItem =
-                    MessageBuilderUtils(requireContext()).bottomSheetItem(
-                        R.layout.dialog_bottom_sheet,
-                        messageText = getString(R.string.message_logout_builder)
-                    )
-
-                    bottomSheetItem.yesBtn?.setOnClickListener {
-                        docsViewModel.logoutUser()
-                        bottomSheetItem.bottomSheet.dismiss()
-
-                        val intent = Intent(requireContext(), LoginActivity::class.java)
-                        startActivity(intent)
-
-                        requireActivity().finish()
-                    }
-
-                    bottomSheetItem.noBtn?.setOnClickListener {
-                        bottomSheetItem.bottomSheet.dismiss()
-                    }
-
-                bottomSheetItem.bottomSheet.show()
+                logoutMenuOption()
 
             }
             IMPORTAR ->{
-                openFilePicker()
-
-                docsViewModel.stateImportDocs.observe(viewLifecycleOwner){ state ->
-                    when(state){
-                        ImportDocsState.Success ->{
-                            MessageBuilderUtils(requireContext()).MessageShowTimer(
-                                getString(R.string.import_docs_storage_success),
-                                1500
-                            )
-                        }
-                        ImportDocsState.Failure -> {
-                            MessageBuilderUtils(requireContext()).MessageShowTimer(
-                                getString(R.string.import_docs_storage_failure),
-                                1500
-                            )
-                        }
-                    }
-                }
+                importMenuOption()
             }
-
+            SEARCH ->{
+                val searchView = item.actionView as SearchView
+                searchMenuOption(searchView)
+            }
 
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun searchMenuOption(searchView: SearchView) {
+
+        docsViewModel.getDocs().observe(viewLifecycleOwner) { docsList ->
+
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(textChanged: String?): Boolean {
+                    textChanged?.let {
+                        val listDocsFilter = docsList.filter { doc ->
+                            doc.title.contains(textChanged)
+                            doc.subTitle.contains(textChanged)
+                            doc.doc.contains(textChanged)
+                        }
+                        pushRecyclerView(listDocsFilter)
+                    }
+                    return true
+                }
+            })
+        }
+    }
+
+    private fun importMenuOption() {
+        openFilePicker()
+
+        docsViewModel.stateImportDocs.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                ImportDocsState.Success -> {
+                    MessageBuilderUtils(requireContext()).MessageShowTimer(
+                        getString(R.string.import_docs_storage_success),
+                        1500
+                    )
+                }
+
+                ImportDocsState.Failure -> {
+                    MessageBuilderUtils(requireContext()).MessageShowTimer(
+                        getString(R.string.import_docs_storage_failure),
+                        1500
+                    )
+                }
+            }
+        }
+    }
+
+    private fun logoutMenuOption() {
+        val bottomSheetItem =
+            MessageBuilderUtils(requireContext()).bottomSheetItem(
+                R.layout.dialog_bottom_sheet,
+                messageText = getString(R.string.message_logout_builder)
+            )
+
+        bottomSheetItem.yesBtn?.setOnClickListener {
+            docsViewModel.logoutUser()
+            bottomSheetItem.bottomSheet.dismiss()
+
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            startActivity(intent)
+
+            requireActivity().finish()
+        }
+
+        bottomSheetItem.noBtn?.setOnClickListener {
+            bottomSheetItem.bottomSheet.dismiss()
+        }
+
+        bottomSheetItem.bottomSheet.show()
+    }
+
+    private fun exportCloudMenuOption() {
+        val bottomSheetItem =
+            MessageBuilderUtils(requireContext()).bottomSheetItem(
+                R.layout.dialog_bottom_sheet,
+                messageText = getString(R.string.message_cloud_builder)
+            )
+
+        docsViewModel.getDocs().observe(viewLifecycleOwner) { docsList ->
+
+            bottomSheetItem.yesBtn?.setOnClickListener {
+
+                docsViewModel.saveRealDatabase(docsList)
+                docsViewModel.stateRealtimeResult.observe(viewLifecycleOwner) { stateSaveDocs ->
+                    when (stateSaveDocs) {
+
+                        is RealtimeDatabaseResult.Success -> {
+                            MessageBuilderUtils(requireActivity()).MessageShowTimer(
+                                getString(R.string.save_docs_firebase_success),
+                                1500
+                            )
+                        }
+
+                        is RealtimeDatabaseResult.Failure -> {
+                            MessageBuilderUtils(requireActivity()).MessageShow(getString(R.string.save_docs_firebase_failure))
+                        }
+
+                    }
+                }
+
+                bottomSheetItem.bottomSheet.dismiss()
+
+            }
+
+            bottomSheetItem.noBtn?.setOnClickListener {
+                bottomSheetItem.bottomSheet.dismiss()
+            }
+
+        }
+        bottomSheetItem.bottomSheet.show()
+    }
+
+    private fun exportMenuOption() {
+        val bottomSheetItem =
+            MessageBuilderUtils(requireContext()).bottomSheetItem(
+                R.layout.dialog_bottom_sheet,
+                messageText = getString(R.string.message_export_builder)
+            )
+
+        docsViewModel.getDocs().observe(viewLifecycleOwner) { docsList ->
+
+            bottomSheetItem.yesBtn?.setOnClickListener {
+
+                try {
+                    docsViewModel.writeToFile(docsList)
+                    MessageBuilderUtils(requireContext()).MessageShowTimer(
+                        getString(R.string.save_docs_storage_success),
+                        1500
+                    )
+                } catch (e: Exception) {
+                    MessageBuilderUtils(requireContext()).MessageShow(getString(R.string.save_docs_storage_failure))
+                }
+                bottomSheetItem.bottomSheet.dismiss()
+            }
+        }
+
+        bottomSheetItem.noBtn?.setOnClickListener {
+            bottomSheetItem.bottomSheet.dismiss()
+        }
+
+        bottomSheetItem.bottomSheet.show()
     }
 
 
