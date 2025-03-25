@@ -1,12 +1,12 @@
 package com.example.f1rstdoc.domain.docs.usecase
 
-import androidx.lifecycle.LiveData
 
 import com.example.f1rstdoc.domain.docs.model.Docs
+import kotlinx.coroutines.flow.Flow
 
 interface DocsRoomDatabaseUseCase {
 
-    fun getDocs(idUser: String): LiveData<List<Docs>>
+    fun getDocs(idUser: String): Flow<List<Docs>>
 
     fun insertDocs(docs: Docs)
 

@@ -9,11 +9,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.f1rstdoc.R
 import com.example.f1rstdoc.databinding.FragmentHomeBinding
@@ -27,6 +24,7 @@ import com.example.f1rstdoc.presentation.login.view.LoginActivity
 import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.navigation.findNavController
 
 
 class HomeFragment : Fragment() {
@@ -43,6 +41,8 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val docsViewModel: DocsViewModel by viewModel()
 
+    private lateinit var listDocs: List<Docs>
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,24 +51,34 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         setHasOptionsMenu(true)
         createDocs()
+        getDocs()
         return binding.root
+    }
+
+    private fun getDocs() {
+        docsViewModel.getDocs()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                docsViewModel.stateGetDocs.collect{ docsList ->
+                    when (docsList) {
+                        is GetDocsState.ListDocs -> {
+                            listDocs = docsList.docs
+                            pushRecyclerView(listDocs)
+                        }
+                    }
+                }
+            }
+
+        }
     }
 
     private fun createDocs() {
         binding.btnAddDocs.setOnClickListener {
-            Navigation.findNavController(it)
+            it.findNavController()
                 .navigate(R.id.action_homeFragment_to_createDocsFragment)
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        docsViewModel.getDocs().observe(viewLifecycleOwner) { docsList ->
-            pushRecyclerView(docsList)
-        }
-
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.home_menu, menu)
@@ -103,8 +113,6 @@ class HomeFragment : Fragment() {
 
     private fun searchMenuOption(searchView: SearchView) {
 
-        docsViewModel.getDocs().observe(viewLifecycleOwner) { docsList ->
-
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     return false
@@ -112,9 +120,9 @@ class HomeFragment : Fragment() {
 
                 override fun onQueryTextChange(textChanged: String?): Boolean {
                     textChanged?.let {
-                        val listDocsFilter = docsList.filter { doc ->
-                            doc.title.contains(textChanged)
-                            doc.subTitle.contains(textChanged)
+                        val listDocsFilter = listDocs.filter { doc ->
+                            doc.title.contains(textChanged) ||
+                            doc.subTitle.contains(textChanged) ||
                             doc.doc.contains(textChanged)
                         }
                         pushRecyclerView(listDocsFilter)
@@ -122,7 +130,6 @@ class HomeFragment : Fragment() {
                     return true
                 }
             })
-        }
     }
 
     private fun importMenuOption() {
@@ -185,11 +192,9 @@ class HomeFragment : Fragment() {
                 messageText = getString(R.string.message_cloud_builder)
             )
 
-        docsViewModel.getDocs().observe(viewLifecycleOwner) { docsList ->
-
             bottomSheetItem.yesBtn?.setOnClickListener {
 
-                docsViewModel.saveRealDatabase(docsList)
+                docsViewModel.saveRealDatabase(listDocs)
                 lifecycleScope.launch {
                     repeatOnLifecycle(Lifecycle.State.STARTED) {
                         docsViewModel.stateRealtimeResult.collect { stateSaveDocs ->
@@ -217,7 +222,6 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
-        }
 
             bottomSheetItem.noBtn?.setOnClickListener {
                 bottomSheetItem.bottomSheet.dismiss()
@@ -234,12 +238,11 @@ class HomeFragment : Fragment() {
                 messageText = getString(R.string.message_export_builder)
             )
 
-        docsViewModel.getDocs().observe(viewLifecycleOwner) { docsList ->
 
             bottomSheetItem.yesBtn?.setOnClickListener {
 
                 try {
-                    docsViewModel.writeToFile(docsList)
+                    docsViewModel.writeToFile(listDocs)
                     MessageBuilderUtils(requireContext()).MessageShowTimer(
                         getString(R.string.save_docs_storage_success),
                         1500
@@ -249,7 +252,7 @@ class HomeFragment : Fragment() {
                 }
                 bottomSheetItem.bottomSheet.dismiss()
             }
-        }
+
 
 
         bottomSheetItem.noBtn?.setOnClickListener {

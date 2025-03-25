@@ -14,12 +14,13 @@ import com.example.f1rstdoc.domain.sharedpreferences.usecase.PreferencesUserLogi
 import com.example.f1rstdoc.presentation.docs.view.state.CreateDocsState
 import com.example.f1rstdoc.presentation.docs.view.state.GetDocsState
 import com.example.f1rstdoc.presentation.docs.view.state.ImportDocsState
-import com.example.f1rstdoc.presentation.docs.view.state.SaveDocsState
 import com.example.f1rstdoc.presentation.utils.factoryDocs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -30,8 +31,8 @@ class DocsViewModel(
     private val internalStorageUseCase: InternalStorageUseCase
 ) : ViewModel() {
 
-//    private val _stateGetDocs  = MutableStateFlow<GetDocsState>(GetDocsState.ListDocs(emptyList()))
-//    val stateGetDocs: StateFlow<GetDocsState> = _stateGetDocs.asStateFlow()
+    private val _stateGetDocs  = MutableStateFlow<GetDocsState>(GetDocsState.ListDocs(mutableListOf<Docs>()))
+    val stateGetDocs: StateFlow<GetDocsState> = _stateGetDocs.asStateFlow()
 
     private val _stateCreateDocs  = MutableStateFlow<CreateDocsState>(CreateDocsState.Loading)
     val stateCreateDocs: StateFlow<CreateDocsState> = _stateCreateDocs.asStateFlow()
@@ -44,14 +45,16 @@ class DocsViewModel(
 
     private val userId: String = preferencesUserLoginUseCase.getUserUid()
 
-//    fun getDocs() {
-//        _stateGetDocs.value = GetDocsState.ListDocs(docsRoomDatabaseUseCase.getDocs(userId).value?: emptyList())
-//    }
-
-    fun getDocs(): LiveData<List<Docs>> {
-        val userId = preferencesUserLoginUseCase.getUserUid()
-        return docsRoomDatabaseUseCase.getDocs(userId)
+    fun getDocs() {
+        viewModelScope.launch {
+            docsRoomDatabaseUseCase.getDocs(userId)
+                .flowOn(Dispatchers.IO)
+                .collectLatest { listDocs ->
+                    _stateGetDocs.value = GetDocsState.ListDocs(listDocs)
+                }
+        }
     }
+
 
     fun deleteDocs(id: Int) {
         docsRoomDatabaseUseCase.deleteDocs(id)
