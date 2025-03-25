@@ -8,6 +8,11 @@ import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.f1rstdoc.R
@@ -15,10 +20,12 @@ import com.example.f1rstdoc.databinding.FragmentHomeBinding
 import com.example.f1rstdoc.domain.docs.model.Docs
 import com.example.f1rstdoc.domain.firebase.model.RealtimeDatabaseResult
 import com.example.f1rstdoc.presentation.docs.adapter.DocsAdapter
+import com.example.f1rstdoc.presentation.docs.view.state.GetDocsState
 import com.example.f1rstdoc.presentation.docs.view.state.ImportDocsState
 import com.example.f1rstdoc.presentation.docs.viewmodel.DocsViewModel
 import com.example.f1rstdoc.presentation.login.view.LoginActivity
 import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -35,6 +42,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private val docsViewModel: DocsViewModel by viewModel()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -119,21 +127,28 @@ class HomeFragment : Fragment() {
 
     private fun importMenuOption() {
         openFilePicker()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                docsViewModel.stateImportDocs.collect { state ->
+                    when (state) {
+                        ImportDocsState.Success -> {
+                            MessageBuilderUtils(requireContext()).MessageShowTimer(
+                                getString(R.string.import_docs_storage_success),
+                                1500
+                            )
+                        }
 
-        docsViewModel.stateImportDocs.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                ImportDocsState.Success -> {
-                    MessageBuilderUtils(requireContext()).MessageShowTimer(
-                        getString(R.string.import_docs_storage_success),
-                        1500
-                    )
-                }
+                        ImportDocsState.Failure -> {
+                            MessageBuilderUtils(requireContext()).MessageShowTimer(
+                                getString(R.string.import_docs_storage_failure),
+                                1500
+                            )
+                        }
 
-                ImportDocsState.Failure -> {
-                    MessageBuilderUtils(requireContext()).MessageShowTimer(
-                        getString(R.string.import_docs_storage_failure),
-                        1500
-                    )
+                        ImportDocsState.Loading -> {
+                            // implementar loading
+                        }
+                    }
                 }
             }
         }
@@ -175,32 +190,40 @@ class HomeFragment : Fragment() {
             bottomSheetItem.yesBtn?.setOnClickListener {
 
                 docsViewModel.saveRealDatabase(docsList)
-                docsViewModel.stateRealtimeResult.observe(viewLifecycleOwner) { stateSaveDocs ->
-                    when (stateSaveDocs) {
+                lifecycleScope.launch {
+                    repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        docsViewModel.stateRealtimeResult.collect { stateSaveDocs ->
+                            when (stateSaveDocs) {
 
-                        is RealtimeDatabaseResult.Success -> {
-                            MessageBuilderUtils(requireActivity()).MessageShowTimer(
-                                getString(R.string.save_docs_firebase_success),
-                                1500
-                            )
+                                is RealtimeDatabaseResult.Success -> {
+                                    MessageBuilderUtils(requireActivity()).MessageShowTimer(
+                                        getString(R.string.save_docs_firebase_success),
+                                        1500
+                                    )
+                                }
+
+                                is RealtimeDatabaseResult.Failure -> {
+                                    MessageBuilderUtils(requireActivity()).MessageShow(getString(R.string.save_docs_firebase_failure))
+                                }
+
+                                RealtimeDatabaseResult.Loading -> {
+                                    //Implementar loading
+                                }
+                            }
                         }
 
-                        is RealtimeDatabaseResult.Failure -> {
-                            MessageBuilderUtils(requireActivity()).MessageShow(getString(R.string.save_docs_firebase_failure))
-                        }
+                        bottomSheetItem.bottomSheet.dismiss()
 
                     }
                 }
-
-                bottomSheetItem.bottomSheet.dismiss()
-
             }
+        }
 
             bottomSheetItem.noBtn?.setOnClickListener {
                 bottomSheetItem.bottomSheet.dismiss()
             }
 
-        }
+
         bottomSheetItem.bottomSheet.show()
     }
 
@@ -227,6 +250,7 @@ class HomeFragment : Fragment() {
                 bottomSheetItem.bottomSheet.dismiss()
             }
         }
+
 
         bottomSheetItem.noBtn?.setOnClickListener {
             bottomSheetItem.bottomSheet.dismiss()
@@ -258,7 +282,5 @@ class HomeFragment : Fragment() {
         binding.rcvAllDocs.adapter = DocsAdapter(listDocs)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
+
 }

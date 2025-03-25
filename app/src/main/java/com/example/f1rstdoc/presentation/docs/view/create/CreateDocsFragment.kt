@@ -6,13 +6,18 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import com.example.f1rstdoc.R
 import com.example.f1rstdoc.databinding.FragmentCreateDocsBinding
 import com.example.f1rstdoc.presentation.docs.view.state.CreateDocsState
 import com.example.f1rstdoc.presentation.docs.viewmodel.DocsViewModel
 import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.navigation.findNavController
 
 class CreateDocsFragment : Fragment() {
 
@@ -38,23 +43,30 @@ class CreateDocsFragment : Fragment() {
             val docs = binding.edtDoc.text.toString()
 
             docsViewModel.createDocs(title, subTitle, docs)
-            docsViewModel.stateCreateDocs.observe(viewLifecycleOwner) { stateCreateDocs ->
-                when (stateCreateDocs) {
-                    is CreateDocsState.Success -> {
-                        Navigation.findNavController((it!!))
-                            .navigate(R.id.action_createDocsFragment_to_homeFragment)
-                        MessageBuilderUtils(requireContext()).MessageShowTimer(
-                            getString(R.string.create_docs_success),
-                            1500
-                        )
-                    }
-                    is CreateDocsState.Failure -> {
-                        MessageBuilderUtils(requireActivity()).MessageShow(getString(R.string.error_save_doc_is_empty))
-                    }
 
-                    else -> {}
+
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    docsViewModel.stateCreateDocs.collect { stateCreateDocs ->
+                        when (stateCreateDocs) {
+                            is CreateDocsState.Success -> {
+                                requireView().findNavController()
+                                    .navigate(R.id.action_createDocsFragment_to_homeFragment)
+                                MessageBuilderUtils(requireContext()).MessageShowTimer(
+                                    getString(R.string.create_docs_success),
+                                    1500
+                                )
+                            }
+                            is CreateDocsState.Failure -> {
+                                MessageBuilderUtils(requireActivity()).MessageShow(getString(R.string.error_save_doc_is_empty))
+                            }
+                            is CreateDocsState.Loading ->{
+                                // Implementação do loading
+                            }
+
+                        }
+                    }
                 }
-
             }
         }
     }

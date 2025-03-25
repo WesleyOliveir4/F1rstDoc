@@ -7,6 +7,6 @@ interface RealtimeDatabaseUseCase {
     suspend fun saveDocsRealtime(
         listDocs: List<Docs>,
         userUid: String,
-        result: (RealtimeDatabaseResult<Boolean>) -> Unit
+        result: (RealtimeDatabaseResult) -> Unit
     )
 }
