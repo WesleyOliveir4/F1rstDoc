@@ -11,7 +11,7 @@ class RealtimeDatabaseImpl():RealtimeDatabaseUseCase {
     override suspend fun saveDocsRealtime(
         listDocs: List<Docs>,
         userUid: String,
-        result: (RealtimeDatabaseResult<Boolean>) -> Unit
+        result: (RealtimeDatabaseResult) -> Unit
     ) {
         when(userUid.isNotEmpty()){
             true->{

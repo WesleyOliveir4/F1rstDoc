@@ -1,7 +1,8 @@
 package com.example.f1rstdoc.presentation.docs.view.state
 
-sealed interface CreateDocsState<out T>{
-        object Success: CreateDocsState<Nothing>
-        object Failure: CreateDocsState<Nothing>
+sealed interface CreateDocsState{
+        object Success: CreateDocsState
+        object Failure: CreateDocsState
+        object Loading: CreateDocsState
 
 }

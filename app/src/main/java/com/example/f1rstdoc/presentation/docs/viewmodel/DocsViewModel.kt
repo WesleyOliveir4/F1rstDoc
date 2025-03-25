@@ -12,10 +12,16 @@ import com.example.f1rstdoc.domain.firebase.usecase.RealtimeDatabaseUseCase
 import com.example.f1rstdoc.domain.internalStorage.usecase.InternalStorageUseCase
 import com.example.f1rstdoc.domain.sharedpreferences.usecase.PreferencesUserLoginUseCase
 import com.example.f1rstdoc.presentation.docs.view.state.CreateDocsState
+import com.example.f1rstdoc.presentation.docs.view.state.GetDocsState
 import com.example.f1rstdoc.presentation.docs.view.state.ImportDocsState
 import com.example.f1rstdoc.presentation.docs.view.state.SaveDocsState
 import com.example.f1rstdoc.presentation.utils.factoryDocs
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DocsViewModel(
     private val docsRoomDatabaseUseCase: DocsRoomDatabaseUseCase,
@@ -24,15 +30,23 @@ class DocsViewModel(
     private val internalStorageUseCase: InternalStorageUseCase
 ) : ViewModel() {
 
+//    private val _stateGetDocs  = MutableStateFlow<GetDocsState>(GetDocsState.ListDocs(emptyList()))
+//    val stateGetDocs: StateFlow<GetDocsState> = _stateGetDocs.asStateFlow()
 
-    private val _stateCreateDocs by lazy { MutableLiveData<CreateDocsState<String>>() }
-    val stateCreateDocs: LiveData<CreateDocsState<String>> get() = _stateCreateDocs
+    private val _stateCreateDocs  = MutableStateFlow<CreateDocsState>(CreateDocsState.Loading)
+    val stateCreateDocs: StateFlow<CreateDocsState> = _stateCreateDocs.asStateFlow()
 
-    private val _stateImportDocs by lazy { MutableLiveData<ImportDocsState>() }
-    val stateImportDocs: LiveData<ImportDocsState> get() = _stateImportDocs
+    private val _stateImportDocs = MutableStateFlow<ImportDocsState>(ImportDocsState.Loading)
+    val stateImportDocs: StateFlow<ImportDocsState> = _stateImportDocs
 
-    private val _stateRealtimeResult by lazy { MutableLiveData<RealtimeDatabaseResult<Boolean>>() }
-    val stateRealtimeResult: LiveData<RealtimeDatabaseResult<Boolean>> get()= _stateRealtimeResult
+    private val _stateRealtimeResult = MutableStateFlow<RealtimeDatabaseResult>(RealtimeDatabaseResult.Loading)
+    val stateRealtimeResult: StateFlow<RealtimeDatabaseResult> = _stateRealtimeResult
+
+    private val userId: String = preferencesUserLoginUseCase.getUserUid()
+
+//    fun getDocs() {
+//        _stateGetDocs.value = GetDocsState.ListDocs(docsRoomDatabaseUseCase.getDocs(userId).value?: emptyList())
+//    }
 
     fun getDocs(): LiveData<List<Docs>> {
         val userId = preferencesUserLoginUseCase.getUserUid()
@@ -45,30 +59,29 @@ class DocsViewModel(
 
     fun createDocs(title: String, subTitle: String, doc: String) {
         if (title.isNotEmpty() || subTitle.isNotEmpty() || doc.isNotEmpty()) {
-            val userId = preferencesUserLoginUseCase.getUserUid()
             docsRoomDatabaseUseCase.insertDocs(
                 factoryDocs(title, subTitle, doc, userId, null)
             )
-            _stateCreateDocs.postValue(CreateDocsState.Success)
+            _stateCreateDocs.value = CreateDocsState.Success
         } else {
-            _stateCreateDocs.postValue(CreateDocsState.Failure)
+            _stateCreateDocs.value = CreateDocsState.Failure
         }
     }
 
     fun updateDocs(title: String, subTitle: String, doc: String, id: Int) {
-        val userId = preferencesUserLoginUseCase.getUserUid()
         docsRoomDatabaseUseCase.updateDocs(factoryDocs(title, subTitle, doc, userId, id))
     }
 
     fun writeToFile(listDocs: List<Docs>) {
         viewModelScope.launch {
-            internalStorageUseCase.exportData(listDocs)
+            withContext(Dispatchers.IO) {
+                internalStorageUseCase.exportData(listDocs)
+            }
         }
     }
 
     fun saveRealDatabase(listDocs: List<Docs>) {
         viewModelScope.launch {
-            val userId = preferencesUserLoginUseCase.getUserUid()
             realtimeDatabaseUseCase.saveDocsRealtime(listDocs,userId) {
                 _stateRealtimeResult.value = it
             }
@@ -81,16 +94,15 @@ class DocsViewModel(
             internalStorageUseCase.selectDataToImport(selectedUri).fold(
                 onSuccess = {result->
                     result.forEach { docs ->
-                        val userId = preferencesUserLoginUseCase.getUserUid()
                         docsRoomDatabaseUseCase.insertDocs(
                             factoryDocs(docs.title, docs.subTitle, docs.doc, userId, null)
                         )
                     }
-                    _stateImportDocs.postValue(ImportDocsState.Success)
+                    _stateImportDocs.value = ImportDocsState.Success
 
                 },
                 onFailure = {
-                    _stateImportDocs.postValue(ImportDocsState.Failure)
+                    _stateImportDocs.value = ImportDocsState.Failure
                 }
             )
         }
@@ -100,7 +112,7 @@ class DocsViewModel(
     fun logoutUser(){
         viewModelScope.launch {
             val email = preferencesUserLoginUseCase.getUserEmail()
-            val uid = preferencesUserLoginUseCase.getUserUid()
+            val uid = userId
             preferencesUserLoginUseCase.saveUserPref(false,email,uid)
         }
     }
