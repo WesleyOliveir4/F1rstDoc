@@ -25,17 +25,14 @@ import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.navigation.findNavController
+import com.example.f1rstdoc.presentation.utils.UiConstants.CLOUDFIREBASE
+import com.example.f1rstdoc.presentation.utils.UiConstants.EXPORT
+import com.example.f1rstdoc.presentation.utils.UiConstants.IMPORT
+import com.example.f1rstdoc.presentation.utils.UiConstants.LOGOUT
+import com.example.f1rstdoc.presentation.utils.UiConstants.SEARCH
 
 
 class HomeFragment : Fragment() {
-
-    companion object{
-        private const val EXPORTAR="Exportar"
-        private const val CLOUDFIREBASE="CloudFirebase"
-        private const val LOGOUT="Logout"
-        private const val IMPORTAR="Importar Docs"
-        private const val SEARCH="SearchDocs"
-    }
 
 
     private lateinit var binding: FragmentHomeBinding
@@ -45,8 +42,7 @@ class HomeFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         setHasOptionsMenu(true)
@@ -59,7 +55,7 @@ class HomeFragment : Fragment() {
         docsViewModel.getDocs()
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                docsViewModel.stateGetDocs.collect{ docsList ->
+                docsViewModel.stateGetDocs.collect { docsList ->
                     when (docsList) {
                         is GetDocsState.ListDocs -> {
                             listDocs = docsList.docs
@@ -74,8 +70,7 @@ class HomeFragment : Fragment() {
 
     private fun createDocs() {
         binding.btnAddDocs.setOnClickListener {
-            it.findNavController()
-                .navigate(R.id.action_homeFragment_to_createDocsFragment)
+            it.findNavController().navigate(R.id.action_homeFragment_to_createDocsFragment)
         }
     }
 
@@ -87,21 +82,25 @@ class HomeFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when(item.title){
-            EXPORTAR -> {
+        when (item.title) {
+            EXPORT -> {
                 exportMenuOption()
             }
+
             CLOUDFIREBASE -> {
                 exportCloudMenuOption()
             }
+
             LOGOUT -> {
                 logoutMenuOption()
 
             }
-            IMPORTAR ->{
+
+            IMPORT -> {
                 importMenuOption()
             }
-            SEARCH ->{
+
+            SEARCH -> {
                 val searchView = item.actionView as SearchView
                 searchMenuOption(searchView)
             }
@@ -113,23 +112,24 @@ class HomeFragment : Fragment() {
 
     private fun searchMenuOption(searchView: SearchView) {
 
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
-                }
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
 
-                override fun onQueryTextChange(textChanged: String?): Boolean {
-                    textChanged?.let {
-                        val listDocsFilter = listDocs.filter { doc ->
-                            doc.title.contains(textChanged) ||
-                            doc.subTitle.contains(textChanged) ||
-                            doc.doc.contains(textChanged)
-                        }
-                        pushRecyclerView(listDocsFilter)
+            override fun onQueryTextChange(textChanged: String?): Boolean {
+                textChanged?.let { text ->
+                    val textLowerCase = text.lowercase()
+                    val listDocsFilter = listDocs.filter { doc ->
+                        doc.title.lowercase().contains(textLowerCase) ||
+                                doc.subTitle.lowercase().contains(textLowerCase) ||
+                                doc.doc.lowercase().contains(textLowerCase)
                     }
-                    return true
+                    pushRecyclerView(listDocsFilter)
                 }
-            })
+                return true
+            }
+        })
     }
 
     private fun importMenuOption() {
@@ -140,15 +140,13 @@ class HomeFragment : Fragment() {
                     when (state) {
                         ImportDocsState.Success -> {
                             MessageBuilderUtils(requireContext()).MessageShowTimer(
-                                getString(R.string.import_docs_storage_success),
-                                1500
+                                getString(R.string.import_docs_storage_success), 1500
                             )
                         }
 
                         ImportDocsState.Failure -> {
                             MessageBuilderUtils(requireContext()).MessageShowTimer(
-                                getString(R.string.import_docs_storage_failure),
-                                1500
+                                getString(R.string.import_docs_storage_failure), 1500
                             )
                         }
 
@@ -162,11 +160,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun logoutMenuOption() {
-        val bottomSheetItem =
-            MessageBuilderUtils(requireContext()).bottomSheetItem(
-                R.layout.dialog_bottom_sheet,
-                messageText = getString(R.string.message_logout_builder)
-            )
+        val bottomSheetItem = MessageBuilderUtils(requireContext()).bottomSheetItem(
+            R.layout.dialog_bottom_sheet, messageText = getString(R.string.message_logout_builder)
+        )
 
         bottomSheetItem.yesBtn?.setOnClickListener {
             docsViewModel.logoutUser()
@@ -186,72 +182,66 @@ class HomeFragment : Fragment() {
     }
 
     private fun exportCloudMenuOption() {
-        val bottomSheetItem =
-            MessageBuilderUtils(requireContext()).bottomSheetItem(
-                R.layout.dialog_bottom_sheet,
-                messageText = getString(R.string.message_cloud_builder)
-            )
+        val bottomSheetItem = MessageBuilderUtils(requireContext()).bottomSheetItem(
+            R.layout.dialog_bottom_sheet, messageText = getString(R.string.message_cloud_builder)
+        )
 
-            bottomSheetItem.yesBtn?.setOnClickListener {
+        bottomSheetItem.yesBtn?.setOnClickListener {
 
-                docsViewModel.saveRealDatabase(listDocs)
-                lifecycleScope.launch {
-                    repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        docsViewModel.stateRealtimeResult.collect { stateSaveDocs ->
-                            when (stateSaveDocs) {
+            docsViewModel.saveRealDatabase(listDocs)
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    docsViewModel.stateRealtimeResult.collect { stateSaveDocs ->
+                        when (stateSaveDocs) {
 
-                                is RealtimeDatabaseResult.Success -> {
-                                    MessageBuilderUtils(requireActivity()).MessageShowTimer(
-                                        getString(R.string.save_docs_firebase_success),
-                                        1500
-                                    )
-                                }
+                            is RealtimeDatabaseResult.Success -> {
+                                MessageBuilderUtils(requireActivity()).MessageShowTimer(
+                                    getString(R.string.save_docs_firebase_success), 1500
+                                )
+                            }
 
-                                is RealtimeDatabaseResult.Failure -> {
-                                    MessageBuilderUtils(requireActivity()).MessageShow(getString(R.string.save_docs_firebase_failure))
-                                }
+                            is RealtimeDatabaseResult.Failure -> {
+                                MessageBuilderUtils(requireActivity()).MessageShow(getString(R.string.save_docs_firebase_failure))
+                            }
 
-                                RealtimeDatabaseResult.Loading -> {
-                                    //Implementar loading
-                                }
+                            RealtimeDatabaseResult.Loading -> {
+                                //Implementar loading
                             }
                         }
-
-                        bottomSheetItem.bottomSheet.dismiss()
-
                     }
+
+                    bottomSheetItem.bottomSheet.dismiss()
+
                 }
             }
+        }
 
-            bottomSheetItem.noBtn?.setOnClickListener {
-                bottomSheetItem.bottomSheet.dismiss()
-            }
+        bottomSheetItem.noBtn?.setOnClickListener {
+            bottomSheetItem.bottomSheet.dismiss()
+        }
 
 
         bottomSheetItem.bottomSheet.show()
     }
 
     private fun exportMenuOption() {
-        val bottomSheetItem =
-            MessageBuilderUtils(requireContext()).bottomSheetItem(
-                R.layout.dialog_bottom_sheet,
-                messageText = getString(R.string.message_export_builder)
-            )
+        val bottomSheetItem = MessageBuilderUtils(requireContext()).bottomSheetItem(
+            R.layout.dialog_bottom_sheet, messageText = getString(R.string.message_export_builder)
+        )
 
 
-            bottomSheetItem.yesBtn?.setOnClickListener {
+        bottomSheetItem.yesBtn?.setOnClickListener {
 
-                try {
-                    docsViewModel.writeToFile(listDocs)
-                    MessageBuilderUtils(requireContext()).MessageShowTimer(
-                        getString(R.string.save_docs_storage_success),
-                        1500
-                    )
-                } catch (e: Exception) {
-                    MessageBuilderUtils(requireContext()).MessageShow(getString(R.string.save_docs_storage_failure))
-                }
-                bottomSheetItem.bottomSheet.dismiss()
+            try {
+                docsViewModel.writeToFile(listDocs)
+                MessageBuilderUtils(requireContext()).MessageShowTimer(
+                    getString(R.string.save_docs_storage_success), 1500
+                )
+            } catch (e: Exception) {
+                MessageBuilderUtils(requireContext()).MessageShow(getString(R.string.save_docs_storage_failure))
             }
+            bottomSheetItem.bottomSheet.dismiss()
+        }
 
 
 
@@ -263,14 +253,16 @@ class HomeFragment : Fragment() {
     }
 
 
-    private val filePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val uri: Uri? = result.data?.data
-            uri?.let { selectedUri ->
-                docsViewModel.importDataDocs(selectedUri)
+    private val filePickerLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uri: Uri? = result.data?.data
+                uri?.let { selectedUri ->
+                    docsViewModel.importDataDocs(selectedUri)
+                }
             }
         }
-    }
+
     private fun openFilePicker() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
