@@ -18,11 +18,11 @@
                         app:showAsAction="always"
                         android:icon="@drawable/ic_cloud_firebase"/>
 
-                    <item android:title="Exportar"
+                    <item android:title="Export"
                         app:showAsAction="always"
                         android:icon="@drawable/ic_save"/>
 
-                <item android:title="Importar Docs"
+                <item android:title="Import"
                     app:showAsAction="always"
                     android:icon="@drawable/ic_import_docs"/>
 

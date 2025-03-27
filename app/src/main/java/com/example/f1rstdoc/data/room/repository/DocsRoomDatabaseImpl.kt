@@ -1,12 +1,12 @@
 package com.example.f1rstdoc.data.room.repository
 
-import androidx.lifecycle.LiveData
 import com.example.f1rstdoc.data.room.dao.DocsDao
 import com.example.f1rstdoc.domain.docs.model.Docs
 import com.example.f1rstdoc.domain.docs.usecase.DocsRoomDatabaseUseCase
+import kotlinx.coroutines.flow.Flow
 
 class DocsRoomDatabaseImpl(private val docsDao: DocsDao):DocsRoomDatabaseUseCase {
-    override fun getDocs(idUser: String): LiveData<List<Docs>> {
+    override fun getDocs(idUser: String): Flow<List<Docs>> {
         return docsDao.getDocs(idUser)
     }
 
