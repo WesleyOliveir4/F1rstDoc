@@ -21,7 +21,7 @@ import androidx.navigation.findNavController
 
 class CreateDocsFragment : Fragment() {
 
-    lateinit var binding: FragmentCreateDocsBinding
+    private lateinit var binding: FragmentCreateDocsBinding
     private val docsViewModel: DocsViewModel by viewModel()
 
     override fun onCreateView(
@@ -57,10 +57,12 @@ class CreateDocsFragment : Fragment() {
                                     1500
                                 )
                             }
+
                             is CreateDocsState.Failure -> {
                                 MessageBuilderUtils(requireActivity()).MessageShow(getString(R.string.error_save_doc_is_empty))
                             }
-                            is CreateDocsState.Loading ->{
+
+                            is CreateDocsState.Loading -> {
                                 // Implementação do loading
                             }
 

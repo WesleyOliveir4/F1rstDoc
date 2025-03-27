@@ -10,15 +10,17 @@ import com.example.f1rstdoc.databinding.FragmentEditDocsBinding
 import com.example.f1rstdoc.presentation.docs.viewmodel.DocsViewModel
 import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.navigateUp
+import com.example.f1rstdoc.presentation.utils.UiConstants.DELETE
 
-class EditDocsFragment: Fragment() {
+class EditDocsFragment : Fragment() {
 
-    private val DELETE ="Delete"
 
     private val oldDocs by navArgs<EditDocsFragmentArgs>()
-    lateinit var  binding: FragmentEditDocsBinding
+    private lateinit var binding: FragmentEditDocsBinding
     private val docsViewModel: DocsViewModel by viewModel()
-
 
 
     override fun onCreateView(
@@ -26,7 +28,7 @@ class EditDocsFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentEditDocsBinding.inflate(layoutInflater , container, false)
+        binding = FragmentEditDocsBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
 
         binding.edtTitle.setText(oldDocs.data.title)
@@ -52,7 +54,7 @@ class EditDocsFragment: Fragment() {
                     getString(R.string.update_docs_success),
                     1500
                 )
-                Navigation.findNavController((it!!))
+                (it).findNavController()
                     .navigate(R.id.action_editDocsFragment_to_homeFragment)
             } catch (e: Exception) {
                 MessageBuilderUtils(requireContext()).MessageShow(getString(R.string.update_docs_failure))
@@ -68,7 +70,7 @@ class EditDocsFragment: Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when(item.title){
+        when (item.title) {
             DELETE -> {
                 val bottomSheetItem =
                     MessageBuilderUtils(requireContext()).bottomSheetItem(
@@ -76,25 +78,29 @@ class EditDocsFragment: Fragment() {
                         messageText = getString(R.string.message_delete_builder)
                     )
 
-                bottomSheetItem.yesBtn?.setOnClickListener{
-                    try{
+                bottomSheetItem.yesBtn?.setOnClickListener {
+                    try {
                         docsViewModel.deleteDocs(oldDocs.data.id!!)
-                        MessageBuilderUtils(requireContext()).MessageShowTimer(getString(R.string.delete_docs_success),1500)
+                        MessageBuilderUtils(requireContext()).MessageShowTimer(
+                            getString(R.string.delete_docs_success),
+                            1500
+                        )
                         bottomSheetItem.bottomSheet.dismiss()
-                        requireActivity().onBackPressed()
-                    }catch(e: Exception){
+                        findNavController().navigateUp()
+                    } catch (e: Exception) {
                         MessageBuilderUtils(requireContext()).MessageShow(getString(R.string.delete_docs_failure))
                     }
 
                 }
-                bottomSheetItem.noBtn?.setOnClickListener{
+                bottomSheetItem.noBtn?.setOnClickListener {
                     bottomSheetItem.bottomSheet.dismiss()
                 }
 
                 bottomSheetItem.bottomSheet.show()
             }
+
             else -> {
-                    requireActivity().onBackPressed()
+                requireActivity().onBackPressed()
             }
         }
 
