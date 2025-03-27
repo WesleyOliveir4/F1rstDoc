@@ -3,6 +3,7 @@ package com.example.f1rstdoc.data.sharedpreferences.repository
 import android.content.Context
 import com.example.f1rstdoc.domain.sharedpreferences.enums.SharedPreferencesIdentifiers
 import com.example.f1rstdoc.domain.sharedpreferences.usecase.PreferencesUserLoginUseCase
+import androidx.core.content.edit
 
 class PreferencesUserLoginImpl(
     private val context: Context
@@ -10,11 +11,11 @@ class PreferencesUserLoginImpl(
 
     override fun saveUserPref(userLoginSession: Boolean, email: String, userUid: String) {
         val sharedPreferences = context.getSharedPreferences(SharedPreferencesIdentifiers.USER_PREFS.text, Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putBoolean(SharedPreferencesIdentifiers.IS_LOGGED.text, userLoginSession)
-        editor.putString(SharedPreferencesIdentifiers.USER_UID.text, userUid)
-        editor.putString(SharedPreferencesIdentifiers.USER_EMAIL.text, email)
-        editor.apply()
+        sharedPreferences.edit() {
+            putBoolean(SharedPreferencesIdentifiers.IS_LOGGED.text, userLoginSession)
+            putString(SharedPreferencesIdentifiers.USER_UID.text, userUid)
+            putString(SharedPreferencesIdentifiers.USER_EMAIL.text, email)
+        }
     }
 
     override fun getUserSessionStatus(): Boolean {
