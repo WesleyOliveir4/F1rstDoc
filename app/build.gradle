@@ -98,4 +98,17 @@ dependencies {
     //Gson
     implementation 'com.google.code.gson:gson:2.10.1'
 
+
+    // JUnit para testes unitários
+    testImplementation "junit:junit:4.13.2"
+
+    // MockK
+    testImplementation "io.mockk:mockk:1.13.5"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2"
+
+
+    // Teste com Koin
+    testImplementation "io.insert-koin:koin-test:3.5.3"
+    testImplementation "io.insert-koin:koin-test-junit4:3.5.3"
+
 }

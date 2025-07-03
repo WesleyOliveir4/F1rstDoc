@@ -4,5 +4,4 @@ sealed interface CreateDocsState{
         object Success: CreateDocsState
         object Failure: CreateDocsState
         object Loading: CreateDocsState
-
 }

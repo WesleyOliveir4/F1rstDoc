@@ -7,5 +7,6 @@ object UiConstants {
          const val LOGOUT = "Logout"
          const val IMPORT = "Import"
          const val SEARCH = "SearchDocs"
+         const val DELETE ="Delete"
 
 }

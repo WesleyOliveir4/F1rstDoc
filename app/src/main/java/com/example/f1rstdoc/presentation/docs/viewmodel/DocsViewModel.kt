@@ -57,14 +57,22 @@ class DocsViewModel(
 
 
     fun deleteDocs(id: Int) {
-        docsRoomDatabaseUseCase.deleteDocs(id)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                docsRoomDatabaseUseCase.deleteDocs(id)
+            }
+        }
     }
 
     fun createDocs(title: String, subTitle: String, doc: String) {
         if (title.isNotEmpty() || subTitle.isNotEmpty() || doc.isNotEmpty()) {
-            docsRoomDatabaseUseCase.insertDocs(
-                factoryDocs(title, subTitle, doc, userId, null)
-            )
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    docsRoomDatabaseUseCase.insertDocs(
+                        factoryDocs(title, subTitle, doc, userId, null)
+                    )
+                }
+            }
             _stateCreateDocs.value = CreateDocsState.Success
         } else {
             _stateCreateDocs.value = CreateDocsState.Failure
@@ -72,7 +80,11 @@ class DocsViewModel(
     }
 
     fun updateDocs(title: String, subTitle: String, doc: String, id: Int) {
-        docsRoomDatabaseUseCase.updateDocs(factoryDocs(title, subTitle, doc, userId, id))
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                docsRoomDatabaseUseCase.updateDocs(factoryDocs(title, subTitle, doc, userId, id))
+            }
+        }
     }
 
     fun writeToFile(listDocs: List<Docs>) {

@@ -24,7 +24,6 @@ abstract class DocsDatabase : RoomDatabase() {
                 val roomDatabaseInstance =
                     Room.databaseBuilder(context, DocsDatabase::class.java,"Docs")
                         .fallbackToDestructiveMigration()
-                        .allowMainThreadQueries()
                         .build()
                 INSTANCE = roomDatabaseInstance
                 return return roomDatabaseInstance

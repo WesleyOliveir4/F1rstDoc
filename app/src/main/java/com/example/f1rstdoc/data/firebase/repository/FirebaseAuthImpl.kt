@@ -11,8 +11,9 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class FirebaseAuthImpl : FirebaseAuthUseCase {
-    private var mAuth: FirebaseAuth = Firebase.auth
+class FirebaseAuthImpl(
+    private val mAuth: FirebaseAuth = Firebase.auth
+) : FirebaseAuthUseCase {
 
 
     override suspend fun singIn(
