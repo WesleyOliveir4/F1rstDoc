@@ -96,7 +96,7 @@ class DocsViewModel(
     }
 
     fun saveRealDatabase(listDocs: List<Docs>) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO){
             realtimeDatabaseUseCase.saveDocsRealtime(listDocs,userId) {
                 _stateRealtimeResult.value = it
             }
@@ -105,7 +105,7 @@ class DocsViewModel(
 
     fun importDataDocs(selectedUri: Uri) {
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             internalStorageUseCase.selectDataToImport(selectedUri).fold(
                 onSuccess = {result->
                     result.forEach { docs ->
