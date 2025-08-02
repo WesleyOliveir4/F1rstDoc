@@ -13,13 +13,16 @@ Registered documentation will be saved locally and in the firebase database.
 <img src="https://github.com/user-attachments/assets/1247fce9-0a7f-42b6-aa97-e3821699bd1b" width="200" height="400">
 
 ## Home | Create Docs | Edit Docs | Exclude 
-<img src="https://github.com/user-attachments/assets/d93473cd-8501-4433-bc64-3b8a32a483f9" width="200" height="400">
+<img src="https://github.com/user-attachments/assets/1537e948-c85d-4b14-9e48-fef62da23678" width="200" height="400">
 <img src="https://github.com/user-attachments/assets/074e119c-110b-43be-828e-1ca51a7ea11c" width="200" height="400">
 <img src="https://github.com/user-attachments/assets/1ef99cd5-1ae3-4cfc-b476-1e2d0dac977a" width="200" height="400">
 <img src="https://github.com/user-attachments/assets/e76c3eea-220e-4602-b264-b71d4b85998e" width="200" height="400">
 
-## Export to RealtimeDB | Export to PDF 🛠
+## Export to RealtimeDB | Export to PDF | Import Json
 <img src="https://github.com/user-attachments/assets/e1692db7-c9d7-4bdb-8d11-cb8a5da9e9cd" width="200" height="400">
+<img src="https://github.com/user-attachments/assets/7d99ec12-84da-4d07-8f50-94beabe205ad" width="200" height="400">
+<img src="https://github.com/user-attachments/assets/726feac2-1733-41e3-80a0-b928283867ad" width="200" height="400">
+
 
 # Technologies used
 ### Kotlin
@@ -29,9 +32,11 @@ Registered documentation will be saved locally and in the firebase database.
 - Coroutines
 - Shared Preferences
 - Room
+- Itextpdf
   
 ## Architectural pattern
 - MVVM
+- Clean
 
 # How to execute the project
 
