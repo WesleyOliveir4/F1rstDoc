@@ -42,6 +42,10 @@ class SplashActivity: AppCompatActivity() {
                         redirectToLogin()
                     }
                 }
+
+                SessionState.Loading -> {
+
+                }
             }
         })
     }
