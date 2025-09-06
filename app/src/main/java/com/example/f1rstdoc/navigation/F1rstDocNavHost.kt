@@ -5,7 +5,10 @@ import androidx.navigation.activity
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.f1rstdoc.presentation.docs.view.HomeActivity
+import com.example.f1rstdoc.presentation.login.screen.LoginScreen
 import com.example.f1rstdoc.presentation.login.view.LoginActivity
+import com.example.f1rstdoc.presentation.register.view.RegisterActivity
 import com.example.f1rstdoc.presentation.splash.screen.SplashScreen
 import kotlinx.serialization.Serializable
 
@@ -16,6 +19,8 @@ object HomeRoute
 @Serializable
 object LoginRoute
 
+@Serializable
+object RegisterRoute
 
 @Serializable
 object SplashRoute
@@ -33,8 +38,19 @@ fun SnakeNavHost() {
             )
         }
 
-        activity<LoginRoute> {
-            activityClass = LoginActivity::class
+        composable<LoginRoute> {
+            LoginScreen(
+                onNavigateToHome = { navController.navigate(HomeRoute) } ,
+                onNavigateToRegister = { navController.navigate(RegisterRoute) }
+            )
+        }
+
+        activity<RegisterRoute> {
+            activityClass = RegisterActivity::class
+        }
+
+        activity<HomeRoute> {
+            activityClass = HomeActivity::class
         }
 
     }

@@ -26,32 +26,32 @@ class LoginActivity : AppCompatActivity() {
 
         redirectToRegister()
 
-        login()
+//        login()
     }
 
-    private fun login() {
-        binding.btnEntrar.setOnClickListener {
-            val email = binding.emaillogin.text.toString()
-            val senha = binding.senhalogin.text.toString()
-
-
-            loginViewModel.loginAuth(email, senha)
-
-            loginViewModel.stateLoginAuth.observe(this) { result ->
-                when (result) {
-                    is FirebaseAuthResult.Success -> {
-                        loginViewModel.saveUserPrefLogin(email,result.data)
-
-                        startActivity(Intent(this, HomeActivity::class.java))
-                        finish()
-                    }
-                    is FirebaseAuthResult.Error -> {
-                        MessageBuilderUtils(this).MessageShow(R.string.error_generic_login.toString())
-                    }
-                }
-            }
-        }
-    }
+//    private fun login() {
+//        binding.btnEntrar.setOnClickListener {
+//            val email = binding.emaillogin.text.toString()
+//            val senha = binding.senhalogin.text.toString()
+//
+//
+//            loginViewModel.loginAuth(email, senha)
+//
+//            loginViewModel.stateLoginAuth.observe(this) { result ->
+//                when (result) {
+//                    is FirebaseAuthResult.Success -> {
+//                        loginViewModel.saveUserPrefLogin(email,result.data)
+//
+//                        startActivity(Intent(this, HomeActivity::class.java))
+//                        finish()
+//                    }
+//                    is FirebaseAuthResult.Error -> {
+//                        MessageBuilderUtils(this).MessageShow(R.string.error_generic_login.toString())
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     private fun redirectToRegister() {
         binding.btnCriarConta.setOnClickListener {
