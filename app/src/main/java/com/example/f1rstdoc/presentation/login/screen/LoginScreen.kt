@@ -6,18 +6,28 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,7 +36,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.f1rstdoc.R
+import com.example.f1rstdoc.domain.firebase.model.FirebaseAuthResult
+import com.example.f1rstdoc.presentation.login.viewmodel.LoginViewModel
 import com.example.f1rstdoc.presentation.theme.F1rstDocComposeTheme
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(
@@ -37,47 +50,62 @@ fun LoginScreen(
         Surface(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            LoginContent()
+
+            val viewModel : LoginViewModel = koinViewModel()
+
+            LoginContent(
+                viewModel,
+                onNavigateToRegister
+            )
+
+            var showTransientMessage by remember { mutableStateOf(false) }
+            var transientMessageText by remember { mutableStateOf("") }
+            var transientMessageType by remember { mutableStateOf(MessageType.INFO) }
+
+            val collectAsState = viewModel.stateLoginAuth.collectAsState(
+                initial = FirebaseAuthResult.Loading
+            )
+            val state = collectAsState.value
+
+            when(state){
+                is FirebaseAuthResult.Success -> {
+                    showTransientMessage = false
+                    onNavigateToHome()
+                }
+                is FirebaseAuthResult.Error -> {
+                    transientMessageText = state.exception ?: "Ocorreu um erro."
+                    transientMessageType = MessageType.ERROR
+                    showTransientMessage = true
+                }
+                is FirebaseAuthResult.Loading -> {
+                    transientMessageText = "Verificando credenciais..." // Mensagem para Loading
+                    transientMessageType = MessageType.LOADING
+                    showTransientMessage = true
+                }
+            }
+//            LaunchedEffect(
+//                collectAsState
+//            ) {
+//
+//            }
+
         }
     }
 
 }
 
-//@Composable
-//fun LoginContent(){
-//
-//    Scaffold(
-//        modifier = Modifier.fillMaxWidth(),
-//        containerColor = Color.Red,
-//    ){ paddinValues ->
-//
-//        Column(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(paddinValues),
-//            horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-//            Image(
-//                modifier = Modifier
-//                    .padding(top = 80.dp)
-//                    .size(width = 100.dp, height = 100.dp)
-//                ,
-//                painter = painterResource(id = R.drawable.ic_santander_grey),
-//                contentDescription = "F1rstDoc Image",
-//            )
-//
-//
-//
-//        }
-//
-//    }
-//
-//}
-
 @Composable
-fun LoginContent() {
+fun LoginContent(
+    viewModel: LoginViewModel,
+    onNavigateToRegister: () -> Unit = {}
+) {
+
+    var email by remember { mutableStateOf("") }
+    var senha by remember { mutableStateOf("") }
+
     Scaffold(
         modifier = Modifier.fillMaxWidth(),
+        contentWindowInsets = WindowInsets.navigationBars,
         containerColor = Color.Red, // Cor de fundo do Scaffold (vermelho)
     ) { paddingValues ->
 
@@ -124,9 +152,47 @@ fun LoginContent() {
                          text = "Acessar sua conta"
                      )
                      Spacer(modifier = Modifier.height(16.dp))
-                     OutlinedTextField(value = "", onValueChange = {}, label = { Text("Email") })
+                     OutlinedTextField(value = email, onValueChange = { novoValor ->
+                         email = novoValor
+                     }, label = { Text("Email") })
+
                      Spacer(modifier = Modifier.height(8.dp))
-                     OutlinedTextField(value = "", onValueChange = {}, label = { Text("Senha") })
+                     OutlinedTextField(value = senha, onValueChange = { novoValor ->
+                         senha = novoValor
+                     }, label = { Text("Senha") })
+
+
+                  Button(
+                      modifier = Modifier
+                          .padding(top = 250.dp)
+                          .size(250.dp, 40.dp),
+                      onClick = {
+                          viewModel.loginAuth(
+                              email = email,
+                              senha = senha
+                          )
+                      },
+                      colors = ButtonDefaults.buttonColors(
+                          containerColor = Color.Black, // Cor de fundo do botão
+                          contentColor = Color.White // Cor do conteúdo (texto/ícone) do botão
+                      )
+                  ) {
+                      Text("Entrar")
+                  }
+
+                    Button(
+                        modifier = Modifier.padding(top = 4.dp),
+                        onClick = {
+                            onNavigateToRegister()
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White, // Cor de fundo do botão
+                            contentColor = Color.Gray // Cor do conteúdo (texto/ícone) do botão
+                        )
+                    ) {
+                        Text("CRIAR CONTA")
+                    }
+
                 }
             }
 
@@ -139,10 +205,13 @@ fun LoginContent() {
     }
 }
 
+
 @Composable
 @Preview(showBackground = true)
 fun LoginPreview(){
+    val viewModel : LoginViewModel = koinViewModel()
+
     F1rstDocComposeTheme {
-        LoginContent()
+        LoginContent(viewModel)
     }
 }

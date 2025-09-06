@@ -48,7 +48,10 @@ class RegisterActivity : AppCompatActivity() {
                 is FirebaseAuthResult.Error -> {
                     MessageBuilderUtils(this).MessageShow(resultCreateUser.exception)
                 }
-            }
+
+                 FirebaseAuthResult.Loading -> {
+                 }
+             }
         }
 
     }
