@@ -49,14 +49,9 @@ fun SplashScreen(onNavigateToLogin: () -> Unit) {
             when (val state = sessionState) {
                 is SessionState.Loading -> {
                     // Mostrar um indicador de carregamento
-                    // Ex: CircularProgressIndicator()
-                    // Ou sua animação de Splash
                 }
                 is SessionState.UserSession -> {
-                    // Efeito para navegar quando o estado UserSession for recebido
-                    // LaunchedEffect com 'state' como chave garante que isso execute
-                    // quando 'state' (especificamente a instância de UserSession) mudar.
-                    LaunchedEffect(state) {
+                        LaunchedEffect(state) {
                         if (state.isLogged) {
                             Handler(Looper.getMainLooper()).postDelayed({
                                 onNavigateToLogin()
@@ -68,9 +63,6 @@ fun SplashScreen(onNavigateToLogin: () -> Unit) {
                         }
                     }
                 }
-                // is SessionState.Error -> {
-                //     // Mostrar uma mensagem de erro
-                // }
             }
 
             SplashContent()
@@ -99,10 +91,9 @@ fun SplashContent() {
         ) { paddingValues ->
             Column(
                 modifier = Modifier
-                    .fillMaxSize() // Ocupa o espaço disponível do Scaffold
-                    .padding(paddingValues) // Aplica os paddings internos do Scaffold
-                    // .consumeWindowInsets(paddingValues) // consumeWindowInsets é para quando o Scaffold lida com insets
-                    .padding(16.dp) // Seu padding de conteúdo
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(16.dp)
             ) {
                 Image(
                     modifier = Modifier
