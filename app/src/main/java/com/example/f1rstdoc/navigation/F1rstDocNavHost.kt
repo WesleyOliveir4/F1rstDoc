@@ -34,7 +34,8 @@ fun SnakeNavHost() {
 
         composable<SplashRoute> {
             SplashScreen(
-                onNavigateToLogin = { navController.navigate(LoginRoute) }
+                onNavigateToLogin = { navController.navigate(LoginRoute) },
+                onNavigateToHome = { navController.navigate(HomeRoute) }
             )
         }
 

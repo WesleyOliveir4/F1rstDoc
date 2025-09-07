@@ -70,6 +70,7 @@ fun LoginScreen(
             when(state){
                 is FirebaseAuthResult.Success -> {
                     showTransientMessage = false
+                    viewModel.saveUserPrefLogin(state.email.toString(),state.data)
                     onNavigateToHome()
                 }
                 is FirebaseAuthResult.Error -> {
@@ -83,11 +84,6 @@ fun LoginScreen(
                     showTransientMessage = true
                 }
             }
-//            LaunchedEffect(
-//                collectAsState
-//            ) {
-//
-//            }
 
         }
     }

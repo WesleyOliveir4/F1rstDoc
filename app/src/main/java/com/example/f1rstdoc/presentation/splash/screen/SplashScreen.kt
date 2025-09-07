@@ -33,7 +33,10 @@ import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun SplashScreen(onNavigateToLogin: () -> Unit) {
+fun SplashScreen(
+    onNavigateToLogin: () -> Unit,
+    onNavigateToHome: () -> Unit
+) {
     F1rstDocComposeTheme {
         Surface(
             modifier = Modifier.fillMaxWidth(),
@@ -54,7 +57,7 @@ fun SplashScreen(onNavigateToLogin: () -> Unit) {
                         LaunchedEffect(state) {
                         if (state.isLogged) {
                             Handler(Looper.getMainLooper()).postDelayed({
-                                onNavigateToLogin()
+                                onNavigateToHome()
                             },2000)
                         } else {
                             Handler(Looper.getMainLooper()).postDelayed({

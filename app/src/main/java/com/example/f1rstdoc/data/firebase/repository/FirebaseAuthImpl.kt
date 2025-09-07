@@ -24,7 +24,7 @@ class FirebaseAuthImpl(
         mAuth.signInWithEmailAndPassword(email,senha).addOnCompleteListener{ task ->
             when (task.isSuccessful) {
                 true -> {
-                    result.invoke(FirebaseAuthResult.Success(data = mAuth.uid!!))
+                    result.invoke(FirebaseAuthResult.Success(data = mAuth.uid!!, email = email))
                 }
                 else -> {
                     result.invoke(FirebaseAuthResult.Error(exception = FirebaseAuthIdentifier.ERROR_GENERIC_SING_IN.toString()))
