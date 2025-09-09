@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,6 +40,7 @@ import com.example.f1rstdoc.R
 import com.example.f1rstdoc.domain.firebase.model.FirebaseAuthResult
 import com.example.f1rstdoc.presentation.login.viewmodel.LoginViewModel
 import com.example.f1rstdoc.presentation.theme.F1rstDocComposeTheme
+import com.example.f1rstdoc.presentation.utils.MessageBuilderUtils
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -65,23 +67,29 @@ fun LoginScreen(
             val collectAsState = viewModel.stateLoginAuth.collectAsState(
                 initial = FirebaseAuthResult.Loading
             )
-            val state = collectAsState.value
+            val currentContext = LocalContext.current
 
-            when(state){
-                is FirebaseAuthResult.Success -> {
-                    showTransientMessage = false
-                    viewModel.saveUserPrefLogin(state.email.toString(),state.data)
-                    onNavigateToHome()
-                }
-                is FirebaseAuthResult.Error -> {
-                    transientMessageText = state.exception ?: "Ocorreu um erro."
-                    transientMessageType = MessageType.ERROR
-                    showTransientMessage = true
-                }
-                is FirebaseAuthResult.Loading -> {
-                    transientMessageText = "Verificando credenciais..." // Mensagem para Loading
-                    transientMessageType = MessageType.LOADING
-                    showTransientMessage = true
+            val state = collectAsState.value
+            LaunchedEffect(state) {
+                when(state){
+                    is FirebaseAuthResult.Success -> {
+                        showTransientMessage = false
+                        viewModel.saveUserPrefLogin(state.email.toString(),state.data)
+                        onNavigateToHome()
+                    }
+                    is FirebaseAuthResult.Error -> {
+
+                        MessageBuilderUtils(currentContext).MessageShow(state.exception)
+
+                        transientMessageText = state.exception ?: "Ocorreu um erro."
+                        transientMessageType = MessageType.ERROR
+                        showTransientMessage = true
+                    }
+                    is FirebaseAuthResult.Loading -> {
+                        transientMessageText = "Verificando credenciais..." // Mensagem para Loading
+                        transientMessageType = MessageType.LOADING
+                        showTransientMessage = true
+                    }
                 }
             }
 
