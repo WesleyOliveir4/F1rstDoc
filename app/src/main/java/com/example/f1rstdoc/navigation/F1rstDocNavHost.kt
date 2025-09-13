@@ -7,8 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.f1rstdoc.presentation.docs.view.HomeActivity
 import com.example.f1rstdoc.presentation.login.screen.LoginScreen
-import com.example.f1rstdoc.presentation.login.view.LoginActivity
-import com.example.f1rstdoc.presentation.register.view.RegisterActivity
+import com.example.f1rstdoc.presentation.register.screen.RegisterScreen
 import com.example.f1rstdoc.presentation.splash.screen.SplashScreen
 import kotlinx.serialization.Serializable
 
@@ -46,8 +45,11 @@ fun SnakeNavHost() {
             )
         }
 
-        activity<RegisterRoute> {
-            activityClass = RegisterActivity::class
+
+        composable<RegisterRoute> {
+            RegisterScreen (
+                onNavigateToLogin = { navController.navigate(LoginRoute) }
+            )
         }
 
         activity<HomeRoute> {
