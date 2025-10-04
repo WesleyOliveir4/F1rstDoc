@@ -5,6 +5,7 @@ import androidx.navigation.activity
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.f1rstdoc.presentation.docs.screen.HomeScreen
 import com.example.f1rstdoc.presentation.docs.view.HomeActivity
 import com.example.f1rstdoc.presentation.login.screen.LoginScreen
 import com.example.f1rstdoc.presentation.register.screen.RegisterScreen
@@ -52,9 +53,14 @@ fun SnakeNavHost() {
             )
         }
 
-        activity<HomeRoute> {
-            activityClass = HomeActivity::class
+
+        composable<HomeRoute> {
+            HomeScreen()
         }
+
+//        activity<HomeRoute> {
+//            activityClass = HomeActivity::class
+//        }
 
     }
 
