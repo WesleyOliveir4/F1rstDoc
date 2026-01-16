@@ -39,17 +39,20 @@ class RegisterActivity : AppCompatActivity() {
 
             registerViewModel.registerUser(email, senha)
         }
-
-        registerViewModel.stateCreateUser.observe(this){ resultCreateUser ->
-             when (resultCreateUser) {
-                is FirebaseAuthResult.Success -> {
-                    MessageBuilderUtils(this).MessageShow(getString(R.string.create_account))
-                }
-                is FirebaseAuthResult.Error -> {
-                    MessageBuilderUtils(this).MessageShow(resultCreateUser.exception)
-                }
-            }
-        }
+//
+//        registerViewModel.stateCreateUser.observe(this){ resultCreateUser ->
+//             when (resultCreateUser) {
+//                is FirebaseAuthResult.Success -> {
+//                    MessageBuilderUtils(this).MessageShow(getString(R.string.create_account))
+//                }
+//                is FirebaseAuthResult.Error -> {
+//                    MessageBuilderUtils(this).MessageShow(resultCreateUser.exception)
+//                }
+//
+//                 FirebaseAuthResult.Loading -> {
+//                 }
+//             }
+//        }
 
     }
 

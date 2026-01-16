@@ -3,13 +3,13 @@ package com.example.f1rstdoc.data.firebase.repository
 import com.example.f1rstdoc.data.firebase.identifiers.FirebaseAuthIdentifier
 import com.example.f1rstdoc.domain.firebase.model.FirebaseAuthResult
 import com.example.f1rstdoc.domain.firebase.usecase.FirebaseAuthUseCase
+import com.google.firebase.Firebase
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.auth
 
 class FirebaseAuthImpl(
     private val mAuth: FirebaseAuth = Firebase.auth
@@ -24,7 +24,7 @@ class FirebaseAuthImpl(
         mAuth.signInWithEmailAndPassword(email,senha).addOnCompleteListener{ task ->
             when (task.isSuccessful) {
                 true -> {
-                    result.invoke(FirebaseAuthResult.Success(data = mAuth.uid!!))
+                    result.invoke(FirebaseAuthResult.Success(data = mAuth.uid!!, email = email))
                 }
                 else -> {
                     result.invoke(FirebaseAuthResult.Error(exception = FirebaseAuthIdentifier.ERROR_GENERIC_SING_IN.toString()))
